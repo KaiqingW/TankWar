@@ -17,10 +17,24 @@
  */
 package EvilCraftMilestone4;
 
+import java.util.Hashtable;
 /**
  *
  * @author csc190
  */
 public class Team {
+    static final Hashtable<Integer,String> idName = new Hashtable<Integer,String>(){{
+        put(1,"red");
+        put(2,"yellow");
+    }};
     
+    int _id;
+    String _name;
+    
+    public Team(int id) {
+        _id = id;
+        _name = idName.get(_id);
+    }
+    
+    public String getName(){ return _name;}
 }

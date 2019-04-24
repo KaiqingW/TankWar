@@ -18,6 +18,8 @@
 package sprites;
 
 import BridgePattern.ICanvasDevice;
+import EvilCraftMilestone4.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -27,17 +29,37 @@ public abstract class Sprite {
      /**
      * update its own data attributes
      */
+    int _x;
+    int _y;
+    int _size;
+    int _destX;
+    int _destY;
+    int _speed;
+    Team _team;
+    Picture _bodyPic;
+    Picture _miniPic;
+    
+    public Sprite(int x,int y,int size, Team team){
+        _x = x;
+        _y = y;
+        _size = size;
+        _team = team;
+        String miniPath = "resources/images/" + team.getName() + "mini.png";
+        _miniPic = new Picture(miniPath,_x,_y,1);
+    }
+    
     public abstract void update();
     
     /**
      * Draw itself on main view, mostly like pictures
      * @param mainview - canvas device
      */
-    public abstract void drawOnMainView(ICanvasDevice mainview);
+ 
+    public abstract ArrayList<Picture> getMainPictures();
     
-    /**
-     * Draw itself on mini map, most likely colored squares
-     * @param minimap - canvas device
-     */
-    public abstract void drawOnMiniMap(ICanvasDevice minimap);
+    public Picture getMiniPictures(){
+        return _miniPic;
+    }
+    
+    public abstract boolean isDead();
 }

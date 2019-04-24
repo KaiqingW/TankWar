@@ -34,6 +34,7 @@ public class GameEngineMS4 implements IGameEngine{
     protected ICanvasDevice _factoryPanel;
     protected ISoundDevice _soundDevice;
     protected Team[] _arrTeam;
+    protected static GameEngineMS4 inst;
     
     //constructor
     public GameEngineMS4(String mapPath,
@@ -46,6 +47,7 @@ public class GameEngineMS4 implements IGameEngine{
         _minimap = minimap;
         _factoryPanel = factoryPanel;
         _soundDevice = soundDevice;
+        inst = this;
     }
        /**
      * Initialization. maybe used to load game sprites.
@@ -57,6 +59,8 @@ public class GameEngineMS4 implements IGameEngine{
     public void init(){
         
     }
+    
+    public GameEngineMS4 getInstance(){ return inst;}
     
     /**
      * Will be expected every tick. (e.g., 30 ticks per second for 30 FPS). Perform operations

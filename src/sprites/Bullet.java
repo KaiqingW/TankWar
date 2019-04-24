@@ -17,10 +17,43 @@
  */
 package sprites;
 
+import BridgePattern.ICanvasDevice;
+import EvilCraftMilestone4.*;
+import java.util.ArrayList;
+
 /**
  *
  * @author csc190
  */
 public class Bullet extends Sprite{
+    int _damage;
+    int _damageRange;
+    private int _damageCount = 1;
     
+    public Bullet(int x, int y, int size,int destX, int destY,Team team){
+        super(x,y,size,team);
+        _destX = destX;
+        _destY = destY;
+    }
+    
+    @Override
+    public void update(){
+        int distance = (int)(Math.sqrt(Math.pow(_destX-_x,2) + Math.pow(_destY-_y,2)));
+        int mX = _speed * (_destX-_x)/distance;
+        int mY = _speed * (_destY-_y)/distance;
+        _x += mX;
+        _y += mY;
+    }
+    
+    @Override
+    public ArrayList<Picture> getMainPictures(){
+        ArrayList<Picture> myList = new ArrayList<>();
+        myList.add(_bodyPic);
+        return myList;
+    }
+
+    @Override
+    public boolean isDead(){
+        return _x == _destX && _y == _destY;
+    }
 }

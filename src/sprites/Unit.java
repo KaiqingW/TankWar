@@ -22,5 +22,13 @@ package sprites;
  * @author csc190
  */
 public abstract class Unit extends Sprite{
+    int _life;
+    int _shootRange;
+    int _coolDown;
+    Bullet _bullet;
+    Unit _target;
+    boolean _isBusy;
+    
+    public Unit(int x, int y, int size){}
     
 }

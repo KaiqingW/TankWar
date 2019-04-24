@@ -16,11 +16,16 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 package sprites;
+import EvilCraftMilestone4.*;
 
 /**
  *
  * @author csc190
  */
 public class Bomb extends Bullet{
-    
+    public Bomb(int x, int y, int destX, int destY, Team team){
+        super(x, y, 10, destX, destY, team);
+        String picPath = "resources/images/" + team.getName() + "/tank/bullet.png";
+        _bodyPic = new Picture(picPath,_x,_y,_size);
+    }
 }
