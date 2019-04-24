@@ -30,8 +30,8 @@ public class Bullet extends Sprite{
     int _damageRange;
     private int _damageCount = 1;
     
-    public Bullet(int x, int y, int size,int destX, int destY,Team team){
-        super(x,y,size,team);
+    public Bullet(int x, int y, int size,int heading, int destX, int destY,Team team){
+        super(x,y,size,heading,team);
         _destX = destX;
         _destY = destY;
     }

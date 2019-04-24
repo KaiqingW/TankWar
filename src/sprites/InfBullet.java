@@ -17,10 +17,19 @@
  */
 package sprites;
 
+import EvilCraftMilestone4.Picture;
+import EvilCraftMilestone4.Team;
+
 /**
  *
  * @author csc190
  */
 public class InfBullet extends Bullet{
-    
+    public InfBullet(int x, int y, int heading, int destX, int destY, Team team){
+        super(x, y, 10, heading, destX, destY, team);
+        _damageRange = 25;
+        _damage = 20;
+        String picPath = "resources/images/" + team.getName() + "/infantry/bullet.png";
+        _bodyPic = new Picture(picPath,_x,_y,_size);
+    }
 }

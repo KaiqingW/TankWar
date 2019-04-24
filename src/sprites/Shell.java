@@ -17,10 +17,19 @@
  */
 package sprites;
 
+import EvilCraftMilestone4.Picture;
+import EvilCraftMilestone4.Team;
+
 /**
  *
  * @author csc190
  */
 public class Shell extends Bullet{
-    
+    public Shell(int x, int y,int heading, int destX, int destY, Team team){
+        super(x, y, 10, heading, destX, destY, team);
+        _damageRange = 50;
+        _damage = 100;
+        String picPath = "resources/images/" + team.getName() + "/tank/bullet.png";
+        _bodyPic = new Picture(picPath,_x,_y,_size);
+    }
 }

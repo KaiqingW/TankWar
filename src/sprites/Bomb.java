@@ -23,9 +23,11 @@ import EvilCraftMilestone4.*;
  * @author csc190
  */
 public class Bomb extends Bullet{
-    public Bomb(int x, int y, int destX, int destY, Team team){
-        super(x, y, 10, destX, destY, team);
-        String picPath = "resources/images/" + team.getName() + "/tank/bullet.png";
+    public Bomb(int x, int y, int heading,int destX, int destY, Team team){
+        super(x, y, 10, heading, destX, destY, team);
+        _damageRange = 100;
+        _damage = 100;
+        String picPath = "resources/images/" + team.getName() + "/plane/bullet.png";
         _bodyPic = new Picture(picPath,_x,_y,_size);
     }
 }

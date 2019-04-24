@@ -32,6 +32,7 @@ public abstract class Sprite {
     int _x;
     int _y;
     int _size;
+    int _heading;
     int _destX;
     int _destY;
     int _speed;
@@ -39,10 +40,11 @@ public abstract class Sprite {
     Picture _bodyPic;
     Picture _miniPic;
     
-    public Sprite(int x,int y,int size, Team team){
+    public Sprite(int x,int y,int size, int heading, Team team){
         _x = x;
         _y = y;
         _size = size;
+        _heading = heading;
         _team = team;
         String miniPath = "resources/images/" + team.getName() + "mini.png";
         _miniPic = new Picture(miniPath,_x,_y,1);
