@@ -17,6 +17,7 @@
  */
 package sprites;
 
+import EvilCraftMilestone4.GameEngineMS4;
 import EvilCraftMilestone4.Picture;
 import EvilCraftMilestone4.Team;
 import java.util.ArrayList;
@@ -30,42 +31,50 @@ public abstract class Unit extends Sprite{
     int _shootRange;
     int _gunDir;
     int _coolDown;
-    Bullet _bullet;
     Unit _target;
     boolean _isBusy;
     
     // constructor
-    public Unit(int x, int y, int size, int heading, Team team, int gunDir){
+    public Unit(int x, int y, int size, int heading, Team team){
         super(x,y,size,heading,team);
-        _gunDir = gunDir;
     }
     
     @Override
     public abstract void update();
     
+    public abstract void fire(int destX, int destY);
     /**
      * Draw itself on main view, mostly like pictures
      * @param mainview - canvas device
      */
     @Override
     public abstract ArrayList<Picture> getMainPictures();
+        
     @Override
     public boolean isDead(){
         return _life <= 0;
     }
     
-    public abstract Bullet fire();
+    public boolean isEnemy(Unit other){
+        return _team.compareTo(other._team) != 0;
+    }
+    
+    public void navigate(){}
     
     public void detect(ArrayList<Unit> units){
         for (Unit u:units){
-            if (inShootRange(u)) {
+            if (isEnemy(u) && inShootRange(u)) {
                 _target = u;
                 return;
+            }
         }
     }
     
-    private boolean inShootRange(Unit enemy){
-        
+    public boolean inShootRange(Unit other){
+        int rangeX = _x - _shootRange/2 - _size/2;
+        int rangeY = _y - _shootRange/2 - _size/2;
+        return  super.oneDimensionOverlap(rangeX, _shootRange, other._x, other._size) && 
+                super.oneDimensionOverlap(rangeY, _shootRange, other._y, other._size);
     }
     
     public void getDamage(int damage){ _life -= damage;}
@@ -73,7 +82,5 @@ public abstract class Unit extends Sprite{
     public void setTargetTo(Unit enemy){
         _target = enemy;
     }
-    
-    public void gunRotation(){}
     
 }

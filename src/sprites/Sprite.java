@@ -50,6 +50,24 @@ public abstract class Sprite {
         _miniPic = new Picture(miniPath,_x,_y,1);
     }
     
+    public boolean oneDimensionOverlap(int x1, int length1, int x2, int length2){
+        return (x1 >= x2 && x1 <= x2 + length2) ||
+               (x1 + length1 <= x2 + length2 && x1 + length1 >= x2) ||
+               (x2 >= x1 && x2 <= x1 + length1);
+    }
+    
+    /**
+     * to tell if two sprites collide with each other
+     * @param other - cannt be null
+     * @return 
+     */
+    public boolean isCollidingWith(Sprite other){
+        return oneDimensionOverlap(_x, _size, other._x, other._size) &&
+                oneDimensionOverlap(_y, _size, other._y, other._size);
+    }
+    
+    
+    
     public abstract void update();
     
     /**

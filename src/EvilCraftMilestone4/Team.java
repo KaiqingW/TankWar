@@ -22,7 +22,7 @@ import java.util.Hashtable;
  *
  * @author csc190
  */
-public class Team {
+public class Team implements Comparable<Team>{
     static final Hashtable<Integer,String> idName = new Hashtable<Integer,String>(){{
         put(1,"red");
         put(2,"yellow");
@@ -37,4 +37,9 @@ public class Team {
     }
     
     public String getName(){ return _name;}
+    
+    @Override
+    public int compareTo(Team other){
+        return _id - other._id;
+    }
 }

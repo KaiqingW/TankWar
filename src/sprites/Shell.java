@@ -29,6 +29,7 @@ public class Shell extends Bullet{
         super(x, y, 10, heading, destX, destY, team);
         _damageRange = 50;
         _damage = 100;
+        _speed = 15;
         String picPath = "resources/images/" + team.getName() + "/tank/bullet.png";
         _bodyPic = new Picture(picPath,_x,_y,_size);
     }

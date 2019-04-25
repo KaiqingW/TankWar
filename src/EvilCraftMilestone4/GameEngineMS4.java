@@ -26,7 +26,7 @@ import java.util.ArrayList;
  */
 public class GameEngineMS4 implements IGameEngine{
     protected Map _map;
-    protected ArrayList<Unit> _arrUnits;
+    public ArrayList<Unit> _arrUnits;
     protected ArrayList<Bullet> _arrBullets;
     protected ArrayList<Picture> _arrPictures;
     protected ICanvasDevice _mainview;
@@ -60,7 +60,7 @@ public class GameEngineMS4 implements IGameEngine{
         
     }
     
-    public GameEngineMS4 getInstance(){ return inst;}
+    public static GameEngineMS4 getInstance(){ return inst;}
     
     /**
      * Will be expected every tick. (e.g., 30 ticks per second for 30 FPS). Perform operations

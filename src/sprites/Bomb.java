@@ -27,6 +27,7 @@ public class Bomb extends Bullet{
         super(x, y, 10, heading, destX, destY, team);
         _damageRange = 100;
         _damage = 100;
+        _speed = 10;
         String picPath = "resources/images/" + team.getName() + "/plane/bullet.png";
         _bodyPic = new Picture(picPath,_x,_y,_size);
     }
