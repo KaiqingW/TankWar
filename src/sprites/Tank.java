@@ -27,14 +27,21 @@ import java.util.ArrayList;
  * @author csc190
  */
 public class Tank extends Unit{
+    private static final int CoolRate = 60;
+    private static final int Life = 300;
+    private static final int ShootRange = 100;
+    private static final int Speed = 5;
+    private static final int Size = 50;
+    
     Picture _gunPic;
     int _rotationSpeed = 1;
     
-    public Tank(int x, int y, int size, int heading, Team team, int gunDir){
+    public Tank(int x, int y, int size, int heading, Team team){
         super(x,y,50,heading,team);
-        _life = 300;
-        _shootRange = 100;
+        _life = Life;
+        _shootRange = ShootRange;
         _gunDir = heading;
+        _speed = Speed;
         String bodyPath = "resources/images/" + team.getName() + "/tank/body.png";
         String gunPath = "resources/images/" + team.getName() + "/tank/gun.png";
         _bodyPic = new Picture(bodyPath,_x,_y,_size);
@@ -52,6 +59,9 @@ public class Tank extends Unit{
                 _target = null;
             }else gunRotation();
         } else detect(ge._arrUnits);
+        _bodyPic.update(_x, _y, _heading);
+        _gunPic.update(_x, _y, _gunDir);
+        if (_coolDown != 0) _coolDown --; 
     }
      /**
      * Draw itself on main view, mostly like pictures
@@ -67,8 +77,9 @@ public class Tank extends Unit{
     
     public void gunRotation(){
         int diff = _gunDir - getDegree(_target._x, _target._y);
-        if ((diff <= 180 && diff >= 0) || diff >= -360 && diff <= -180) _gunDir++;
-        else _gunDir--;
+        if (Math.abs(diff) == 0 && _coolDown == 0) fire();
+        else if ((diff <= 180 && diff > 0) || (diff > -360 && diff <= -180)) _gunDir++;
+        else if ((diff < 360 && diff > 180) || (diff > -180 && diff < 0))_gunDir--;
     }
         
     private int getDegree(int x, int y){
@@ -76,10 +87,10 @@ public class Tank extends Unit{
         return degree;
     }
     
-    public void fire(int destX, int destY){
-        Bullet bullet = new Shell(_x, _y, _gunDir,destX, destY, _team);
+    public void fire(){
+        Bullet bullet = new Shell(_x, _y, _gunDir,_target._x, _target._y, _team);
         GameEngineMS4 ge = GameEngineMS4.getInstance();
         ge.addBullet(bullet);
-        _coolDown = 60;
+        _coolDown = CoolRate;
     }
 }

@@ -42,7 +42,7 @@ public abstract class Unit extends Sprite{
     @Override
     public abstract void update();
     
-    public abstract void fire(int destX, int destY);
+    public abstract void fire();
     /**
      * Draw itself on main view, mostly like pictures
      * @param mainview - canvas device

@@ -38,6 +38,12 @@ public class Picture {
         this.y = y;
         this.size = size;
     }
+    
+    public void update(int x, int y, int degree){
+        setX(x);
+        setY(y);
+        setDegree(degree);
+    }
 
    
     public int getX() {

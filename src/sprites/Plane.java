@@ -17,10 +17,69 @@
  */
 package sprites;
 
+import EvilCraftMilestone4.GameEngineMS4;
+import EvilCraftMilestone4.Picture;
+import EvilCraftMilestone4.Team;
+import java.util.ArrayList;
+
 /**
  *
  * @author csc190
  */
 public class Plane extends Unit{
+    private static final int CoolRate = 6000;
+    private static final int Life = 40;
+    private static final int ShootRange = 50;
+    private static final int Speed = 8;
+    private static final int Size = 50;
     
+    public Plane(int x, int y, int size, int heading, Team team){
+        super(x,y,Size,heading,team);
+        _life = Life;
+        _shootRange = ShootRange;
+        _gunDir = heading;
+        _speed = Speed;
+        String bodyPath = "resources/images/" + team.getName() + "/infantry/body.png";
+        _bodyPic = new Picture(bodyPath,_x,_y,_size);
+        _bodyPic.setDegree(_heading);
+    }
+    
+    @Override
+    public void update(){
+        GameEngineMS4 ge = GameEngineMS4.getInstance();
+        if (_isBusy) navigate();
+        if (_target != null){
+            if (_target.isDead()) {
+                _target = null;
+            }else gunRotation();
+        } else detect(ge._arrUnits);
+        _bodyPic.update(_x, _y, _heading);
+        if (_coolDown != 0) _coolDown --; 
+    }
+     /**
+     * Draw itself on main view, mostly like pictures
+     * @param mainview - canvas device
+     */
+    @Override
+    public ArrayList<Picture> getMainPictures(){
+        ArrayList<Picture> ans = new ArrayList<Picture>();
+        ans.add(_bodyPic);
+        return ans;
+    }
+    
+    public void gunRotation(){
+        if (_coolDown == 0) fire();
+    }
+        
+    private int getDegree(int x, int y){
+        int degree = (int)Math.toDegrees(Math.atan2(x-_x,y-_y));
+        return degree;
+    }
+    
+    public void fire(){
+        Bullet bullet = new Bomb(_x, _y, _heading,_target._x, _target._y, _team);
+        GameEngineMS4 ge = GameEngineMS4.getInstance();
+        ge.addBullet(bullet);
+        _coolDown = CoolRate;
+    }
 }

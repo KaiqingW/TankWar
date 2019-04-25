@@ -38,10 +38,11 @@ public class GameEngineMS4 implements IGameEngine{
     
     //constructor
     public GameEngineMS4(String mapPath,
-            ICanvasDevice mainview,
-            ICanvasDevice minimap,
-            ICanvasDevice factoryPanel,
-            ISoundDevice soundDevice){
+                          ICanvasDevice mainview,
+                          ICanvasDevice minimap,
+                          ICanvasDevice factoryPanel,
+                          ISoundDevice soundDevice)
+    {
         _map = new Map(mapPath);
         _mainview = mainview;
         _minimap = minimap;
