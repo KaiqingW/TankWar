@@ -62,6 +62,7 @@ public abstract class Unit extends Sprite{
     public void navigate(){}
     
     public void detect(ArrayList<Unit> units){
+        if (_target != null) return;
         for (Unit u:units){
             if (isEnemy(u) && inShootRange(u)) {
                 _target = u;
@@ -78,9 +79,9 @@ public abstract class Unit extends Sprite{
     }
     
     public void getDamage(int damage){ _life -= damage;}
-    
+
+             
     public void setTargetTo(Unit enemy){
         _target = enemy;
     }
-    
 }

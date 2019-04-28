@@ -29,9 +29,9 @@ public abstract class Sprite {
      /**
      * update its own data attributes
      */
-    int _x;
-    int _y;
-    int _size;
+    public int _x;
+    public int _y;
+    public int _size;
     int _heading;
     int _destX;
     int _destY;
@@ -50,7 +50,7 @@ public abstract class Sprite {
         _miniPic = new Picture(miniPath,_x,_y,1);
     }
     
-    public boolean oneDimensionOverlap(int x1, int length1, int x2, int length2){
+    public static boolean oneDimensionOverlap(int x1, int length1, int x2, int length2){
         return (x1 >= x2 && x1 <= x2 + length2) ||
                (x1 + length1 <= x2 + length2 && x1 + length1 >= x2) ||
                (x2 >= x1 && x2 <= x1 + length1);

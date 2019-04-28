@@ -19,6 +19,7 @@
 
 package BridgePattern;
 
+import javafx.scene.image.Image;
 /**
  * A canvas device provides a variety of draw functions and will call its controller on mouse operations.
  * Only supports .png files
@@ -41,6 +42,8 @@ public interface ICanvasDevice {
      * Clear the entire canvas.
      */
     public void clear();
+    
+    public void clear(Image background);
     
     /**
      * Get the width of canvas device in pixels

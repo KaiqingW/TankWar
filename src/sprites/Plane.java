@@ -80,6 +80,10 @@ public class Plane extends Unit{
         Bullet bullet = new Bomb(_x, _y, _heading,_target._x, _target._y, _team);
         GameEngineMS4 ge = GameEngineMS4.getInstance();
         ge.addBullet(bullet);
+        ge.addMiniPic(bullet.getMiniPictures());
+        for (Picture p: bullet.getMainPictures()){
+            ge.addPic(p);
+        }
         _coolDown = COOLRATE;
     }
 }

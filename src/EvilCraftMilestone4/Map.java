@@ -16,17 +16,41 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 package EvilCraftMilestone4;
-
+import BridgePattern.*;
+import javafx.scene.image.Image;
 /**
  *
  * @author csc190
  */
 public class Map {
-    protected Picture[] _map;
+    private static final String COMMON = "resources/images/common/";
+    private static final String MINI = "resources/images/mini/";
+    
+    public Image _minimap;
+    protected Picture[][] _map;
     protected String _mapPath;
     
     public Map(String mapPath){
         _mapPath = mapPath;
     }
+    public void generatePics(ICanvasDevice canvas){
+        String input = canvas.readFile(_mapPath);
+        String[] lines = input.split("\n");
+        for (int i = 0; i < lines.length; i++) {
+            String line = lines[i];
+            String[] arrNames = line.split(" +");
+            for (int j = 0; j < arrNames.length; j++) {
+                String name = arrNames[j];
+                String commonPath =  COMMON + name + ".png";
+                String miniPath = MINI + name +".png";
+                _map[i][j] = new Picture(commonPath, j * 100, i * 100, 100);
+                
+            }
+        }
+    }
+    
+    public Picture[][] getMap(){ return _map;}
+    
+    
     
 }

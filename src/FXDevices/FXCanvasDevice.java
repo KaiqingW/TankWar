@@ -168,6 +168,11 @@ public class FXCanvasDevice implements ICanvasDevice {
     public void clear() {
         this.canvas.getGraphicsContext2D().clearRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
     }
+    
+    @Override
+    public void clear(Image background){
+        this.canvas.getGraphicsContext2D().drawImage(background, 0, 0, getWidth(), getHeight());
+    }
 
     @Override
     public String readFile(String filepath) {

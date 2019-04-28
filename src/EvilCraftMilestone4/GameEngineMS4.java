@@ -17,6 +17,7 @@
  */
 package EvilCraftMilestone4;
 
+import javafx.scene.image.Image;
 import BridgePattern.*;
 import sprites.*;
 import java.util.ArrayList;
@@ -25,19 +26,19 @@ import java.util.ArrayList;
  * @author csc190
  */
 public class GameEngineMS4 implements IGameEngine{
-    protected Picture[][] map;
-    protected int size;
-    protected int viewportX = 0, viewportY = 0;
+    protected int _viewportX = 0, _viewportY = 0;
     protected Map _map;
+    protected Image _minimap;
     public ArrayList<Unit> _arrUnits;
     protected ArrayList<Bullet> _arrBullets;
     protected ArrayList<Picture> _arrPictures;
+    protected ArrayList<Picture> _arrMiniPics;
     protected ICanvasDevice _mainview;
-    protected ICanvasDevice _minimap;
+    protected ICanvasDevice _miniview;
     protected ICanvasDevice _factoryPanel;
     protected ISoundDevice _soundDevice;
     protected Team[] _arrTeam;
-    protected static GameEngineMS4 inst;
+    protected static GameEngineMS4 _inst;
     
     //constructor
     public GameEngineMS4(String mapPath,
@@ -48,23 +49,67 @@ public class GameEngineMS4 implements IGameEngine{
     {
         _map = new Map(mapPath);
         _mainview = mainview;
-        _minimap = minimap;
+        _miniview = minimap;
         _factoryPanel = factoryPanel;
         _soundDevice = soundDevice;
-        inst = this;
+        _inst = this;
     }
        /**
      * Initialization. maybe used to load game sprites.
      */
     private void initGame(){
-        
+        _map.generatePics(_mainview);
     }
     @Override
     public void init(){
         
     }
     
-    public static GameEngineMS4 getInstance(){ return inst;}
+    public void update(){
+        _mainview.clear();
+        _miniview.clear(_minimap);
+        drawMap();
+        
+        updateAllSprites();
+        drawAllPics();
+    }
+    
+    public void updateAllSprites(){
+        for (Unit u: _arrUnits) {
+            u.update();
+            if (u.isDead()){
+                removeUnit(u);
+                for (Picture p: u.getMainPictures())
+                    removePic(p);
+                removeMiniPic(u.getMiniPictures());
+            }
+        }
+        for (Bullet b: _arrBullets) {
+            b.update();
+            if (b.isDead()){
+                damage(b);
+                for (Picture p: b.getMainPictures())
+                    removePic(p);
+                removeMiniPic(b.getMiniPictures());
+            }
+        }
+    }
+    public void drawMap(){
+        
+    }
+    
+    public void drawAllPics(){
+        for(Picture pic: _arrPictures){
+            _mainview.drawImg(pic.getImg(), pic.getX()-_viewportX, pic.getY()-_viewportY,
+                    pic.getSize(), pic.getSize(), pic.getDegree());
+        }
+        for(Picture pic: _arrMiniPics){
+            _miniview.drawImg(pic.getImg(), pic.getX()-_viewportX, pic.getY()-_viewportY,
+                    pic.getSize(), pic.getSize(), pic.getDegree());
+        }
+    }
+    
+    public static GameEngineMS4 getInstance(){ return _inst;}
     
     /**
      * Will be expected every tick. (e.g., 30 ticks per second for 30 FPS). Perform operations
@@ -75,21 +120,32 @@ public class GameEngineMS4 implements IGameEngine{
 
     }
     
-    public void addUnit(Unit unit){}
+    public void addUnit(Unit unit){ _arrUnits.add(unit);}
     
-    public void addBullet(Bullet bullet){}
+    public void addBullet(Bullet bullet){ _arrBullets.add(bullet);}
     
-    public void addPic(Picture pic){}
+    public void addPic(Picture pic){ _arrPictures.add(pic);}
     
-    public void removeUnit(Unit unit){}
+    public void addMiniPic(Picture pic){ _arrMiniPics.add(pic);}
     
-    public void removeBullet(Unit bullet){}
+    public void removeUnit(Unit unit){ _arrUnits.remove(unit);}
     
-    public void removePic(Unit pic){}
+    public void removeBullet(Unit bullet){ _arrBullets.remove(bullet);}
     
-    public void detectRange(int x, int y, int range){}
+    public void removePic(Picture pic){ _arrPictures.remove(pic);}
     
-    public void damage(int damage){}
+    public void removeMiniPic(Picture pic){ _arrMiniPics.remove(pic);}
+    
+    
+    public void damage(Bullet bullet){
+        for (Unit u: _arrUnits){
+            if (bullet.isEnemy(u) && 
+                    Sprite.oneDimensionOverlap(bullet._x,bullet._size,u._x,u._size) && 
+                    Sprite.oneDimensionOverlap(bullet._y,bullet._size,u._y,u._size)){
+                u.getDamage(bullet._damage);
+            }
+        }
+    }
     
     /**
      * Handles the mouse right button click. This operation may be substituted by finger ops on mobile devices.

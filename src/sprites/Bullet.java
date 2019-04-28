@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * @author csc190
  */
 public class Bullet extends Sprite{
-    int _damage;
+    public int _damage;
     int _damageRange;
     private int _damageCount = 1;
     
@@ -34,6 +34,10 @@ public class Bullet extends Sprite{
         super(x,y,size,heading,team);
         _destX = destX;
         _destY = destY;
+    }
+    
+    public boolean isEnemy(Unit other){
+        return _team.compareTo(other._team) != 0;
     }
     
     @Override
@@ -54,6 +58,8 @@ public class Bullet extends Sprite{
 
     @Override
     public boolean isDead(){
+        if (_damageCount < 1) return false;
+        _damageCount --;
         return _x == _destX && _y == _destY;
     }
 }

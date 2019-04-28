@@ -61,7 +61,7 @@ public class Tank extends Unit{
         } else detect(ge._arrUnits);
         _bodyPic.update(_x, _y, _heading);
         _gunPic.update(_x, _y, _gunDir);
-        if (_coolDown != 0) _coolDown --; 
+        if (_coolDown != 0) _coolDown --;
     }
      /**
      * Draw itself on main view, mostly like pictures
@@ -77,9 +77,14 @@ public class Tank extends Unit{
     
     public void gunRotation(){
         int diff = _gunDir - getDegree(_target._x, _target._y);
-        if (Math.abs(diff) == 0 && _coolDown == 0) fire();
-        else if ((diff <= 180 && diff > 0) || (diff > -360 && diff <= -180)) _gunDir++;
-        else if ((diff < 360 && diff > 180) || (diff > -180 && diff < 0))_gunDir--;
+        if (Math.abs(diff) < _rotationSpeed){
+            if (_coolDown == 0) fire();
+        } else if ((diff <= 180 && diff > 0) || (diff > -360 && diff <= -180)){ 
+            _gunDir += _rotationSpeed;
+        }
+        else if ((diff < 360 && diff > 180) || (diff > -180 && diff < 0)){
+            _gunDir -= _rotationSpeed;
+        }
     }
         
     private int getDegree(int x, int y){
@@ -91,6 +96,10 @@ public class Tank extends Unit{
         Bullet bullet = new Shell(_x, _y, _gunDir,_target._x, _target._y, _team);
         GameEngineMS4 ge = GameEngineMS4.getInstance();
         ge.addBullet(bullet);
+        ge.addMiniPic(bullet.getMiniPictures());
+        for (Picture p: bullet.getMainPictures()){
+            ge.addPic(p);
+        }
         _coolDown = COOLRATE;
     }
 }
