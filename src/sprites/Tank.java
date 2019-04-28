@@ -27,21 +27,21 @@ import java.util.ArrayList;
  * @author csc190
  */
 public class Tank extends Unit{
-    private static final int CoolRate = 60;
-    private static final int Life = 300;
-    private static final int ShootRange = 100;
-    private static final int Speed = 5;
-    private static final int Size = 50;
+    private static final int COOLRATE = 60;
+    private static final int LIFE = 300;
+    private static final int SHOOTRANGE = 100;
+    private static final int SPEED = 5;
+    private static final int SIZE = 50;
     
     Picture _gunPic;
     int _rotationSpeed = 1;
     
     public Tank(int x, int y, int size, int heading, Team team){
-        super(x,y,50,heading,team);
-        _life = Life;
-        _shootRange = ShootRange;
+        super(x,y,SIZE,heading,team);
+        _life = LIFE;
+        _shootRange = SHOOTRANGE;
         _gunDir = heading;
-        _speed = Speed;
+        _speed = SPEED;
         String bodyPath = "resources/images/" + team.getName() + "/tank/body.png";
         String gunPath = "resources/images/" + team.getName() + "/tank/gun.png";
         _bodyPic = new Picture(bodyPath,_x,_y,_size);
@@ -91,6 +91,6 @@ public class Tank extends Unit{
         Bullet bullet = new Shell(_x, _y, _gunDir,_target._x, _target._y, _team);
         GameEngineMS4 ge = GameEngineMS4.getInstance();
         ge.addBullet(bullet);
-        _coolDown = CoolRate;
+        _coolDown = COOLRATE;
     }
 }

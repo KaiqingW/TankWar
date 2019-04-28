@@ -23,11 +23,15 @@ import EvilCraftMilestone4.*;
  * @author csc190
  */
 public class Bomb extends Bullet{
+    private static final int DAMAGERANGE = 50;
+    private static final int DAMAGE = 100;
+    private static final int SPEED = 15;
+    private static final int SIZE = 10;
     public Bomb(int x, int y, int heading,int destX, int destY, Team team){
-        super(x, y, 10, heading, destX, destY, team);
-        _damageRange = 100;
-        _damage = 100;
-        _speed = 10;
+        super(x, y, SIZE, heading, destX, destY, team);
+        _damageRange = DAMAGERANGE;
+        _damage = DAMAGE;
+        _speed = SPEED;
         String picPath = "resources/images/" + team.getName() + "/plane/bullet.png";
         _bodyPic = new Picture(picPath,_x,_y,_size);
     }

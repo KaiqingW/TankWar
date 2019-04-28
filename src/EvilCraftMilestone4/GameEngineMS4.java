@@ -25,6 +25,9 @@ import java.util.ArrayList;
  * @author csc190
  */
 public class GameEngineMS4 implements IGameEngine{
+    protected Picture[][] map;
+    protected int size;
+    protected int viewportX = 0, viewportY = 0;
     protected Map _map;
     public ArrayList<Unit> _arrUnits;
     protected ArrayList<Bullet> _arrBullets;

@@ -27,18 +27,18 @@ import java.util.ArrayList;
  * @author csc190
  */
 public class Infantry extends Unit{
-    private static final int CoolRate = 15;
-    private static final int Life = 20;
-    private static final int ShootRange = 50;
-    private static final int Speed = 2;
-    private static final int Size = 50;
+    private static final int COOLRATE = 15;
+    private static final int LIFE = 20;
+    private static final int SHOOTRANGE = 50;
+    private static final int SPEED = 2;
+    private static final int SIZE = 50;
     
     public Infantry(int x, int y, int size, int heading, Team team){
-        super(x,y,Size,heading,team);
-        _life = Life;
-        _shootRange = ShootRange;
+        super(x,y,SIZE,heading,team);
+        _life = LIFE;
+        _shootRange = SHOOTRANGE;
         _gunDir = heading;
-        _speed = Speed;
+        _speed = SPEED;
         String bodyPath = "resources/images/" + team.getName() + "/infantry/body.png";
         _bodyPic = new Picture(bodyPath,_x,_y,_size);
         _bodyPic.setDegree(_heading);
@@ -81,6 +81,6 @@ public class Infantry extends Unit{
         Bullet bullet = new InfBullet(_x, _y, _heading,_target._x, _target._y, _team);
         GameEngineMS4 ge = GameEngineMS4.getInstance();
         ge.addBullet(bullet);
-        _coolDown = CoolRate;
+        _coolDown = COOLRATE;
     }
 }
