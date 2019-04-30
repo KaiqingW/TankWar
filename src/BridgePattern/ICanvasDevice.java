@@ -35,6 +35,8 @@ public interface ICanvasDevice {
      * @param height - height in pixel
      * @param degree - 0 degree is reverse Y axis (going up). Rotate clock wise
      */
+    public Image getImage(String picpath);
+    
     public void drawImg(String imgPath, int x, int y, int width, int height, int degree);
     
     

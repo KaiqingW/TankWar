@@ -58,11 +58,12 @@ public class GameEngineMS4 implements IGameEngine{
      * Initialization. maybe used to load game sprites.
      */
     private void initGame(){
-        _map.generatePics(_mainview);
+        _map.init(_mainview);
     }
+    
     @Override
     public void init(){
-        
+        initGame();
     }
     
     public void update(){

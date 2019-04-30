@@ -52,7 +52,7 @@ public class FXCanvasDevice implements ICanvasDevice {
     //--------------------------------------
     //methods
     //--------------------------------------
-    protected Image getImage(String picpath) {
+    public Image getImage(String picpath) {
         if (!map.containsKey(picpath)) {
             //Somehow had to chop off the "resources part"
             String path2 = picpath.substring(picpath.indexOf("/") + 1);
