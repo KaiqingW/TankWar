@@ -36,10 +36,6 @@ public class Bullet extends Sprite{
         _destY = destY;
     }
     
-    public boolean isEnemy(Unit other){
-        return _team.compareTo(other._team) != 0;
-    }
-    
     @Override
     public void update(){
         int distance = (int)(Math.sqrt(Math.pow(_destX-_x,2) + Math.pow(_destY-_y,2)));

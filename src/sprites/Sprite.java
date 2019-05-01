@@ -29,9 +29,9 @@ public abstract class Sprite {
      /**
      * update its own data attributes
      */
-    public int _x;
-    public int _y;
-    public int _size;
+    int _x;
+    int _y;
+    int _size;
     int _heading;
     int _destX;
     int _destY;
@@ -50,6 +50,15 @@ public abstract class Sprite {
         _miniPic = new Picture(miniPath,_x,_y,1);
     }
     
+    public int getX(){ return _x;}
+    public int getY(){ return _y;}
+    public int getSize(){ return _size;}
+    public Team getTeam(){ return _team;}
+    
+    public boolean isEnemy(Team team) {
+        return _team.compareTo(team) != 0;
+    }
+    
     public static boolean oneDimensionOverlap(int x1, int length1, int x2, int length2){
         return (x1 >= x2 && x1 <= x2 + length2) ||
                (x1 + length1 <= x2 + length2 && x1 + length1 >= x2) ||
@@ -65,8 +74,6 @@ public abstract class Sprite {
         return oneDimensionOverlap(_x, _size, other._x, other._size) &&
                 oneDimensionOverlap(_y, _size, other._y, other._size);
     }
-    
-    
     
     public abstract void update();
     

@@ -31,18 +31,20 @@ public abstract class Unit extends Sprite{
     int _shootRange;
     int _gunDir;
     int _coolDown;
-    Unit _target;
-    boolean _isBusy;
+    String _target;
+    String _tempTarget;
     
     // constructor
     public Unit(int x, int y, int size, int heading, Team team){
         super(x,y,size,heading,team);
     }
     
+    public int getShootRange(){ return _shootRange;}
+    
     @Override
     public abstract void update();
     
-    public abstract void fire();
+    public abstract void fire(int targetX, int targetY);
     /**
      * Draw itself on main view, mostly like pictures
      * @param mainview - canvas device
@@ -55,20 +57,16 @@ public abstract class Unit extends Sprite{
         return _life <= 0;
     }
     
-    public boolean isEnemy(Unit other){
-        return _team.compareTo(other._team) != 0;
-    }
-    
     public void navigate(){}
     
-    public void detect(ArrayList<Unit> units){
-        if (_target != null) return;
-        for (Unit u:units){
-            if (isEnemy(u) && inShootRange(u)) {
-                _target = u;
-                return;
-            }
-        }
+    
+    public String isTargeted(){
+        return "" + _x + "," + _y + "," + isDead();
+    }
+    
+    public boolean havingTarget(){ return _target != null;}
+    public boolean havingTempTarget(){
+        return _tempTarget != null;
     }
     
     public boolean inShootRange(Unit other){
@@ -80,8 +78,11 @@ public abstract class Unit extends Sprite{
     
     public void getDamage(int damage){ _life -= damage;}
 
+    public void setTempTarget(String enemy){
+        _tempTarget = enemy;
+    }
              
-    public void setTargetTo(Unit enemy){
+    public void setTargetTo(String enemy){
         _target = enemy;
     }
 }

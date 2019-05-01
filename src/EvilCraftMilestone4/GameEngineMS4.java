@@ -75,6 +75,21 @@ public class GameEngineMS4 implements IGameEngine{
         drawAllPics();
     }
     
+    public String isEnemyShow(Unit unit){
+        for (Unit u: _arrUnits){
+            if (unit.isEnemy(u.getTeam())){
+                int rangeX = unit.getX() - unit.getShootRange()/2 - unit.getSize()/2;
+                int rangeY = unit.getY() - unit.getShootRange()/2 - unit.getSize()/2;
+                
+                if (Sprite.oneDimensionOverlap(rangeX, unit.getShootRange(), u.getX(), u.getSize()) && 
+                Sprite.oneDimensionOverlap(rangeY, unit.getShootRange(), u.getY(), u.getSize())){
+                    return u.isTargeted();
+                }   
+            }
+        }
+        return null;
+    }
+    
     public void updateAllSprites(){
         for (Unit u: _arrUnits) {
             u.update();
@@ -140,9 +155,9 @@ public class GameEngineMS4 implements IGameEngine{
     
     public void damage(Bullet bullet){
         for (Unit u: _arrUnits){
-            if (bullet.isEnemy(u) && 
-                    Sprite.oneDimensionOverlap(bullet._x,bullet._size,u._x,u._size) && 
-                    Sprite.oneDimensionOverlap(bullet._y,bullet._size,u._y,u._size)){
+            if (bullet.isEnemy(u.getTeam()) && 
+                    Sprite.oneDimensionOverlap(bullet.getX(),bullet.getSize(),u.getX(),u.getSize()) && 
+                    Sprite.oneDimensionOverlap(bullet.getY(),bullet.getSize(),u.getY(),u.getSize())){
                 u.getDamage(bullet._damage);
             }
         }

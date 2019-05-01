@@ -53,12 +53,12 @@ public class Tank extends Unit{
     @Override
     public void update(){
         GameEngineMS4 ge = GameEngineMS4.getInstance();
-        if (_isBusy) navigate();
-        if (_target != null){
-            if (_target.isDead()) {
-                _target = null;
+        if (_target != null) navigate();
+        if (_tempTarget != null){
+            if (Boolean.parseBoolean(_tempTarget.split(",")[2])) {
+                _tempTarget = null;
             }else gunRotation();
-        } else detect(ge._arrUnits);
+        } else _tempTarget = ge.isEnemyShow(this);
         _bodyPic.update(_x, _y, _heading);
         _gunPic.update(_x, _y, _gunDir);
         if (_coolDown != 0) _coolDown --;
@@ -76,9 +76,11 @@ public class Tank extends Unit{
     }
     
     public void gunRotation(){
-        int diff = _gunDir - getDegree(_target._x, _target._y);
+        int targetX = Integer.parseInt(_target.split(",")[0]);
+        int targetY = Integer.parseInt(_target.split(",")[1]);
+        int diff = _gunDir - getDegree(targetX, targetY);
         if (Math.abs(diff) < _rotationSpeed){
-            if (_coolDown == 0) fire();
+            if (_coolDown == 0) fire(targetX,targetY);
         } else if ((diff <= 180 && diff > 0) || (diff > -360 && diff <= -180)){ 
             _gunDir += _rotationSpeed;
         }
@@ -92,8 +94,9 @@ public class Tank extends Unit{
         return degree;
     }
     
-    public void fire(){
-        Bullet bullet = new Shell(_x, _y, _gunDir,_target._x, _target._y, _team);
+    public void fire(int targetX, int targetY){
+
+        Bullet bullet = new Shell(_x, _y, _gunDir,targetX, targetY, _team);
         GameEngineMS4 ge = GameEngineMS4.getInstance();
         ge.addBullet(bullet);
         ge.addMiniPic(bullet.getMiniPictures());
