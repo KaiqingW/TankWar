@@ -20,6 +20,7 @@ package sprites;
 import BridgePattern.ICanvasDevice;
 import EvilCraft.Picture;
 import EvilCraft.Team;
+import FXDevices.FXCanvasDevice;
 
 /**
  *
@@ -27,14 +28,15 @@ import EvilCraft.Team;
  */
 public class Base extends ConstUnit{
     //------- DATA MEMBERS ----------
+    public static final int SIZE = 100;
     protected Picture _bodyPic;
     //------- OPERATIONS -------------
     
     
-    public Base(int x, int y, int size, int team){
-        super(x,y,size,team);
+    public Base(int x, int y, int team){
+        super(x,y,SIZE,team);
         String bodyPath = "resources/images/" + Team.PICPATH[_team] + "/base/body.png";
-        _bodyPic = new Picture(bodyPath, x, y, size);
+        _bodyPic = new Picture(bodyPath, _x, _y, _size);
     }
     
     /**
@@ -49,7 +51,7 @@ public class Base extends ConstUnit{
      * @param mainview - canvas device
      */
     public void drawOnMainView(ICanvasDevice mainview){
-        mainview.drawImg(_bodyPic);
+        ((FXCanvasDevice)mainview).drawImg(_bodyPic);
     }
     
     /**

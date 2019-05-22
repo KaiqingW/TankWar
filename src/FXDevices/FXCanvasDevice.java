@@ -20,6 +20,7 @@ package FXDevices;
 import BridgePattern.ICanvasDevice;
 import BridgePattern.IGameEngine;
 import BridgePattern.IStopWatch;
+import EvilCraft.Picture;
 import java.io.File;
 
 import java.io.InputStream;
@@ -73,6 +74,10 @@ public class FXCanvasDevice implements ICanvasDevice {
 
     protected GraphicsContext mygc = null;
 
+    public void drawImg(Picture pic){
+        drawImg(pic.getPath(),pic.getX(),pic.getY(),pic.getSize(),pic.getSize(),pic.getDegree());
+    }
+    
     @Override
     public void drawImg(String imgPath, int x, int y, int width, int height, int degree) {
         x -= this.viewportX;

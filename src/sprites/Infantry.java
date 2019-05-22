@@ -20,6 +20,7 @@ package sprites;
 import BridgePattern.ICanvasDevice;
 import EvilCraft.Picture;
 import EvilCraft.Team;
+import FXDevices.FXCanvasDevice;
 
 /**
  *
@@ -27,16 +28,22 @@ import EvilCraft.Team;
  */
 public class Infantry extends ArmyUnit{
     //------- DATA MEMBERS ----------
+    public static final int SIZE = 10;
     protected Picture _bodyPic;
     protected Picture _gunPic;
     //------- OPERATIONS -------------
     
-    public Infantry(int x, int y, int size, int team){
-        super(x,y,size,team);
+    public Infantry(int x, int y, int team){
+        super(x,y,SIZE,team);
         String bodyPath = "resources/images/" + Team.PICPATH[_team] + "/infantry/body.png";
-        _bodyPic = new Picture(bodyPath, x, y, size);
+        _bodyPic = new Picture(bodyPath, _x, _y, _size);
     }
-    
+    public Infantry(Sprite other){
+        super(other);
+        if (other instanceof Infantry) {
+            _bodyPic = ((Infantry)other)._bodyPic;
+        }else throw new RuntimeException("Infantry can not copy other object!");
+    }
     /**
      * update status of sprite as time goes
      */
@@ -49,7 +56,7 @@ public class Infantry extends ArmyUnit{
      * @param mainview - canvas device
      */
     public void drawOnMainView(ICanvasDevice mainview){
-        mainview.drawImg(_bodyPic);
+        ((FXCanvasDevice)mainview).drawImg(_bodyPic);
     }
     
     /**

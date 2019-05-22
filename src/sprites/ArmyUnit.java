@@ -30,6 +30,9 @@ public abstract class ArmyUnit extends Unit{
         super(x,y,size,team);
     }
     
+    public ArmyUnit(Sprite other){
+        super(other);
+    }
     /**
      * update status of sprite as time goes
      */

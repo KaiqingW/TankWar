@@ -45,6 +45,17 @@ public abstract class Sprite {
         _team = team;
     }
     
+    public Sprite(Sprite other){
+        _x = other._x;
+        _y = other._y;
+        _size = other._size;        
+    }
+    
+    public int getX() {return _x;}
+    
+    public int getY() {return _y;}
+    
+    
      /**
      * tell if a sprite is dead
      */

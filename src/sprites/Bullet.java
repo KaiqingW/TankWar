@@ -30,7 +30,6 @@ public class Bullet extends Sprite{
         super(x,y,size,team);
     }
     
-    
     @Override
     public void update(){
         throw new UnsupportedOperationException("Not supported yet");

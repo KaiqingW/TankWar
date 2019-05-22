@@ -20,6 +20,7 @@ package sprites;
 import BridgePattern.ICanvasDevice;
 import EvilCraft.Picture;
 import EvilCraft.Team;
+import FXDevices.FXCanvasDevice;
 
 /**
  *
@@ -27,16 +28,25 @@ import EvilCraft.Team;
  */
 public class Tank extends ArmyUnit{
     //------- DATA MEMBERS ----------
+    public static final int SIZE = 50;
     protected Picture _bodyPic;
     protected Picture _gunPic;
     //------- OPERATIONS -------------
     
-    public Tank(int x, int y, int size, int team){
-        super(x,y,size,team);
+    public Tank(int x, int y, int team){
+        super(x,y,SIZE,team);
         String bodyPath = "resources/images/" + Team.PICPATH[_team] + "/tank/body.png";
         String gunPath = "resources/images/" + Team.PICPATH[_team] + "/tank/gun.png";
-        _bodyPic = new Picture(bodyPath, x, y, size);
-        _gunPic = new Picture(gunPath, x, y, size);
+        _bodyPic = new Picture(bodyPath, _x, _y, _size);
+        _gunPic = new Picture(gunPath, _x, _y, _size);
+    }
+    
+    public Tank(Sprite other){
+        super(other);
+        if (other instanceof Tank) {
+            _bodyPic = ((Tank)other)._bodyPic;
+            _gunPic = ((Tank)other)._gunPic;
+        }else throw new RuntimeException("Tank can not copy other object!");
     }
     
     /**
@@ -51,8 +61,8 @@ public class Tank extends ArmyUnit{
      * @param mainview - canvas device
      */
     public void drawOnMainView(ICanvasDevice mainview){
-        mainview.drawImg(_bodyPic);
-        mainview.drawImg(_gunPic);
+        ((FXCanvasDevice)mainview).drawImg(_bodyPic);
+        ((FXCanvasDevice)mainview).drawImg(_gunPic);
     }
     
     /**
