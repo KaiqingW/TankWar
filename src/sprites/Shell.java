@@ -17,10 +17,14 @@
  */
 package sprites;
 
+import EvilCraft.Team;
+
 /**
  *
  * @author csc190
  */
 public class Shell extends Bullet{
-    
+    public Shell(int x, int y, int size, int team){
+        super(x,y,size,team);
+    }
 }

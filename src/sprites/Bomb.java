@@ -17,10 +17,14 @@
  */
 package sprites;
 
+import EvilCraft.Team;
+
 /**
  *
  * @author csc190
  */
 public class Bomb extends Bullet{
-    
+    public Bomb(int x, int y, int size, int team){
+        super(x,y,size,team);
+    }
 }

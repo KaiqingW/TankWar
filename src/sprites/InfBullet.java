@@ -17,10 +17,15 @@
  */
 package sprites;
 
+import EvilCraft.Team;
+
 /**
  *
  * @author csc190
  */
 public class InfBullet extends Bullet{
     
+    public InfBullet(int x, int y, int size, int team){
+        super(x,y,size,team);
+    }
 }

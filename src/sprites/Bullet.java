@@ -17,10 +17,41 @@
  */
 package sprites;
 
+import BridgePattern.ICanvasDevice;
+import EvilCraft.Team;
+
 /**
  *
  * @author csc190
  */
 public class Bullet extends Sprite{
     
+    public Bullet(int x, int y, int size, int team){
+        super(x,y,size,team);
+    }
+    
+    
+    @Override
+    public void update(){
+        throw new UnsupportedOperationException("Not supported yet");
+    }
+    
+    /**
+     * Draw itself on main view, mostly like pictures
+     * @param mainview - canvas device
+     */
+    @Override
+    public void drawOnMainView(ICanvasDevice mainview){
+        throw new UnsupportedOperationException("Not supported yet");
+    }
+    
+    /**
+     * Draw itself on mini map, most likely colored squares
+     * @param minimap - canvas device
+     */
+    @Override
+    public void drawOnMiniMap(ICanvasDevice minimap){
+        throw new UnsupportedOperationException("Not supported yet");
+    }
+            
 }

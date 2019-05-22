@@ -17,10 +17,49 @@
  */
 package sprites;
 
+import BridgePattern.ICanvasDevice;
+import EvilCraft.Picture;
+import EvilCraft.Team;
+
 /**
  *
  * @author csc190
  */
 public class Tank extends ArmyUnit{
+    //------- DATA MEMBERS ----------
+    protected Picture _bodyPic;
+    protected Picture _gunPic;
+    //------- OPERATIONS -------------
     
+    public Tank(int x, int y, int size, int team){
+        super(x,y,size,team);
+        String bodyPath = "resources/images/" + Team.PICPATH[_team] + "/tank/body.png";
+        String gunPath = "resources/images/" + Team.PICPATH[_team] + "/tank/gun.png";
+        _bodyPic = new Picture(bodyPath, x, y, size);
+        _gunPic = new Picture(gunPath, x, y, size);
+    }
+    
+    /**
+     * update status of sprite as time goes
+     */
+    public void update(){
+        throw new UnsupportedOperationException("Not supported yet");
+    }
+    
+    /**
+     * Draw itself on main view, mostly like pictures
+     * @param mainview - canvas device
+     */
+    public void drawOnMainView(ICanvasDevice mainview){
+        mainview.drawImg(_bodyPic);
+        mainview.drawImg(_gunPic);
+    }
+    
+    /**
+     * Draw itself on mini map, most likely colored squares
+     * @param minimap - canvas device
+     */
+    public void drawOnMiniMap(ICanvasDevice minimap){
+        throw new UnsupportedOperationException("Not supported yet");
+    }
 }

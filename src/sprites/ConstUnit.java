@@ -17,10 +17,33 @@
  */
 package sprites;
 
+import BridgePattern.ICanvasDevice;
+import EvilCraft.Team;
+
 /**
  *
  * @author csc190
  */
-public class ConstUnit extends Unit{
+public abstract class ConstUnit extends Unit{
     
+    public ConstUnit(int x, int y, int size, int team){
+        super(x,y,size,team);
+    }
+    
+    /**
+     * update status of sprite as time goes
+     */
+    public abstract void update();
+    
+    /**
+     * Draw itself on main view, mostly like pictures
+     * @param mainview - canvas device
+     */
+    public abstract void drawOnMainView(ICanvasDevice mainview);
+    
+    /**
+     * Draw itself on mini map, most likely colored squares
+     * @param minimap - canvas device
+     */
+    public abstract void drawOnMiniMap(ICanvasDevice minimap);
 }

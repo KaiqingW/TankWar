@@ -28,58 +28,35 @@ import EvilCraftMilestone3.*;
 public class Picture {
 
     //* data members *
-    protected String filepath;
-    protected int x, y;
-    protected int size;
-    protected int degree;
+    protected String _path;
+    protected int _x, _y;
+    protected int _size;
+    protected int _degree;
 
     //*********** operations ***************
     public Picture(String filepath, int x, int y, int size) {
-        this.filepath = filepath;
-        this.x = x;
-        this.y = y;
-        this.size = size;
+        _path = filepath;
+        _x = x;
+        _y = y;
+        _size = size;
     }
+    
+    public int getX() { return _x;}
+    
+    public int getY() { return _y;}
+    
+    public int getSize() { return _size;}
+    
+    public String getPath() { return _path;}
 
-   
-    public int getX() {
-        return this.x;
-    }
-
+    public int getDegree() { return _degree;}
     
-    public int getY() {
-        return this.y;
-    }
-
+    public void setDegree(int d){ _degree = d;}
     
-    public int getSize() {
-        return this.size;
-    }
-
+    public void setPath(String path){ _path = path;}
     
-    public String getImg() {
-        return this.filepath;
-    }
-
-   
-    public int getDegree() {
-        return this.degree;
-    }
+    public void setX(int x){ _x = x;}
     
-    public void setDegree(int d){
-        this.degree = d;
-    }
-    
-    public void setPath(String path){
-        this.filepath = path;
-    }
-    
-    public void setX(int x){
-        this.x = x;
-    }
-    
-    public void setY(int y){
-        this.y = y;
-    }
+    public void setY(int y){ _y = y;}
 
 }
