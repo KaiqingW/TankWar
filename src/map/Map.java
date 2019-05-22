@@ -15,12 +15,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package sprites;
+package map;
+
+import EvilCraft.Picture;
+
 
 /**
  *
  * @author csc190
  */
-public class Tank extends ArmyUnit{
+public class Map {
+    protected Picture[] _map;
+    protected String _mapPath;
+    
+    public Map(String mapPath){
+        _mapPath = mapPath;
+    }
     
 }

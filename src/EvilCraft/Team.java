@@ -15,18 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package EvilCraftMilestone4;
+package EvilCraft;
 
 /**
  *
  * @author csc190
  */
-public class Map {
-    protected Picture[] _map;
-    protected String _mapPath;
-    
-    public Map(String mapPath){
-        _mapPath = mapPath;
-    }
+public class Team {
     
 }

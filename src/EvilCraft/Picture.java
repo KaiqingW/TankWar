@@ -1,3 +1,5 @@
+package EvilCraft;
+
 /*
  * Copyright (C) 2019 csc190
  *
@@ -15,7 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package EvilCraftMilestone4;
+
 
 import EvilCraftMilestone3.*;
 

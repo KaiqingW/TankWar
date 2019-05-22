@@ -21,6 +21,6 @@ package sprites;
  *
  * @author csc190
  */
-public class Plane extends Unit{
+public class Plane extends ArmyUnit{
     
 }

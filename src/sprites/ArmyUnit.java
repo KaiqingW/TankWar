@@ -21,6 +21,6 @@ package sprites;
  *
  * @author csc190
  */
-public class Tank extends ArmyUnit{
+public class ArmyUnit extends Unit{
     
 }

@@ -20,6 +20,10 @@ package EvilCraft;
 import BridgePattern.ICanvasDevice;
 import BridgePattern.IGameEngine;
 import BridgePattern.ISoundDevice;
+import java.util.ArrayList;
+import map.Map;
+import sprites.Bullet;
+import sprites.Unit;
 
 /**
  *
@@ -27,59 +31,118 @@ import BridgePattern.ISoundDevice;
  */
 public class GameEngine implements IGameEngine{
     // -------------- DATA MEBERS ------------------
-    protected String mapPath;
-    protected ICanvasDevice mainview;
-    protected ICanvasDevice minimap;
-    protected ISoundDevice soundDevice;
-    protected ICanvasDevice factoryPanel;
-    protected static GameEngine ge_instance = null;
+    protected Map _map;
+    protected ArrayList<Unit> _arrUnits;
+    protected ArrayList<Bullet> _arrBullets;
+    protected ArrayList<Picture> _arrPictures;
+    protected ICanvasDevice _mainview;
+    protected ICanvasDevice _minimap;
+    protected ICanvasDevice _factoryPanel;
+    protected ISoundDevice _soundDevice;
+    protected Team[] _arrTeam;
+    protected static GameEngine _instance = null;
     //---------------- OPERATIONS ------------------
     /**
      * Constructor.
      * An evil craft game engine has 3 canvases: main view, mini map and a panel for manufacturing units
-     * @param mapPath
+     * @param map
      * @param mainview
      * @param minimap
      * @param factoryPanel
      * @param sound 
      */
-    public GameEngine(String mapPath, ICanvasDevice mainview, ICanvasDevice minimap, ICanvasDevice factoryPanel, ISoundDevice sound){
-        this.mapPath = mapPath;
-        this.mainview = mainview;
-        this.minimap = minimap;
-        this.soundDevice = soundDevice;
-        ge_instance = this;
+    
+    //constructor
+    public GameEngine(String mapPath,
+            ICanvasDevice mainview,
+            ICanvasDevice minimap,
+            ICanvasDevice factoryPanel,
+            ISoundDevice soundDevice){
+        _map = new Map(mapPath);
+        _mainview = mainview;
+        _minimap = minimap;
+        _factoryPanel = factoryPanel;
+        _soundDevice = soundDevice;
+        _instance = this;
     }
+       /**
+     * Initialization. maybe used to load game sprites.
+     */
     
     public static GameEngine getInstance(){
-        return ge_instance;
+        return _instance;
     }
-
-    @Override
-    public void init() {
-        //DON'T KILL THE following line
-        ge_instance  = this;
-        //DON'T KILL THE ABOVE LINE
-    }
-
-    @Override
-    public void onTick() {
+    
+    private void initGame(){
         
     }
-
     @Override
-    public void onRightClick(ICanvasDevice canvas, int x, int y) {
+    public void init(){
         
     }
-
+    
+    /**
+     * Will be expected every tick. (e.g., 30 ticks per second for 30 FPS). Perform operations
+     * such as update all sprites and redraw them.
+     */
     @Override
-    public void onLeftClick(ICanvasDevice canvas, int x, int y) {
-        
-    }
+    public void onTick(){
 
-    @Override
-    public void onRegionSelected(ICanvasDevice canvas, int x1, int y1, int x2, int y2) {
-        
     }
+    
+    public void addUnit(Unit unit){}
+    
+    public void addBullet(Bullet bullet){}
+    
+    public void addPic(Picture pic){}
+    
+    public void removeUnit(Unit unit){}
+    
+    public void removeBullet(Unit bullet){}
+    
+    public void removePic(Unit pic){}
+    
+    public void detectRange(int x, int y, int range){}
+    
+    public void damage(int damage){}
+    
+    /**
+     * Handles the mouse right button click. This operation may be substituted by finger ops on mobile devices.
+     * Note that game engine needs to keep track of canvas size and perform translation of coordinates (relative to map)
+     * @param canvas - the canvas device which raises the event
+     * @param x - x coordinate of the event IN the canvas device
+     * @param y - y coordinate of the event IN the canvas device
+     */
+    @Override
+    public void onRightClick(ICanvasDevice canvas, int x, int y){
+    
+    }
+    
+    
+    /**
+     * Handles the mouse left button click. This operation may be substituted by finger ops on mobile devices.
+     * Note that game engine needs to keep track of canvas size and perform translation of coordinates (relative to map)
+     * @param canvas - the canvas device which raises the event
+     * @param x - x coordinate of the event IN the canvas device
+     * @param y - y coordinate of the event IN the canvas device
+     */
+    @Override
+    public void onLeftClick(ICanvasDevice canvas, int x, int y){
+    }
+    
+    
+    /**
+     * Handles the mouse drag and then release event. This operation may be substituted by finger ops on mobile devices.
+     * Note that game engine needs to keep track of canvas size and perform translation of coordinates (relative to map)
+     * @param canvas - the canvas device which raises the event
+     * @param x1 - x coordinate of the DRAG_START event IN the canvas device. 
+     * @param y1 - y coordinate of the DRAG_START event IN the canvas device
+     * @param x2 - x coordinate of the DRAG_END event IN the canvas device. 
+     * @param y2 - y coordinate of the DRAG_END event IN the canvas device
+     */
+    @Override
+    public void onRegionSelected(ICanvasDevice canvas, int x1, int y1, int x2, int y2){
+    }
+    
     
 }
