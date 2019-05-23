@@ -17,19 +17,42 @@
  */
 package map;
 
-import EvilCraft.Picture;
-
+import java.io.InputStream;
+import java.util.Scanner;
 
 /**
  *
  * @author csc190
  */
 public class Map {
-    protected Picture[] _map;
+    public static int UNITSIZE = 100;
+    public static final String ROOTPATH = "resources/images/common/";
+    protected Node[][] MAP;
     protected String _mapPath;
     
     public Map(String mapPath){
         _mapPath = mapPath;
     }
     
+    private String readFile(String filepath) {
+        int idx = filepath.indexOf("resources/");
+        filepath = filepath.substring(idx+"resources/".length());
+        InputStream is = getClass().getClassLoader().getResourceAsStream(filepath);
+        Scanner sc = new Scanner(is);
+        String sContent = sc.useDelimiter("\\Z").next();  
+        return sContent;
+    }
+    
+    private void genMap(String content){
+        String[] lines = content.split("\n");
+        int height = lines.length;
+        int width = lines[0].length();
+        MAP = new Node[height][width];
+        for (int i=0;i<height;i++){
+            for (int j=0;j<width;j++)
+                MAP[i][j] = new Node(ROOTPATH + lines[i].split(" ")[j]);
+        }
+    }
+    
+    public Node[][] getMap(){ return MAP;}
 }

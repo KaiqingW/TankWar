@@ -40,6 +40,7 @@ public class Team {
     protected int _cash;
     protected Base _base;
     protected ArrayList<ArmyUnit> _arrAUnit = new ArrayList<ArmyUnit>();
+    protected ArrayList<Bullet> _arrBullet = new ArrayList<Bullet>();
     
     // ---- OPERATIONS
     
@@ -49,29 +50,41 @@ public class Team {
         _base = base;
         _genX = _base.getX() + Base.SIZE;
         _genY = _base.getY() + Base.SIZE;
-        ArmyUnit inf = new Infantry(_genX,_genY,_id);
-        ArmyUnit tank = new Tank(_genX,_genY,_id);
-        ArmyUnit plane = new Plane(_genX,_genY,_id);
-        _armyUnitModule = new ArmyUnit[3];
-        _armyUnitModule[0] = inf;
-        _armyUnitModule[1] = tank;
-        _armyUnitModule[2] = plane;
     }
     
-    private void vacuumGenPlace(){
-        
+    private void vacuumGenPlace(int size){
+        for (ArmyUnit aU: _arrAUnit){
+            if (!(aU instanceof Plane) && aU.isCollidingWith(_genX,_genY,size)){
+                aU.moveOutCurrentPos();
+            }
+        }
     }
     
     public void purchase(int s){
         if (_cash >= COST[s]){ 
             _cash -= COST[s];
-            Sprite sprite;
-            if (s == INFANTRY) sprite = new Infantry()
-            }
+            generate(s);
         }
+    }
+    
+    private void generate(int s){
+        ArmyUnit aU;
+        switch(s){
+            case INFANTRY: aU = new Infantry(_genX,_genY,_id);
+                    break;
+            case TANK: aU = new Tank(_genX,_genY,_id);
+                    break;
+            case PLANE: aU = new Plane(_genX,_genY,_id);
+                    break;
+            default: throw new RuntimeException("No Army Unit type exist!");
+        }
+        _arrAUnit.add(aU);
+    }
     
     public void playAsHumen(){ _isHumanPlayer = true;}
     
+    public int getID(){return _id;}
     
+    public int getCash(){return _cash;}
     
 }

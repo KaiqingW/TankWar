@@ -68,15 +68,6 @@ public interface ICanvasDevice {
      */
     public void setupEventHandler(IGameEngine gameEngine);
     
-    
-    /**
-     * Read the entire file and return the entire content as a string. It will not throw
-     * exception. If file not found, return empty string.
-     * @param filepath - a relative path started with "resources/"
-     * @return the entire file contents. If file can't be opened, return empty string. 
-     */
-    public String readFile(String filepath);
-    
     /**
      * Return the total number of pixels drawn so far
      * @return total number of pixels drawn so far
@@ -90,4 +81,26 @@ public interface ICanvasDevice {
      */
     public void setViewPort(int x, int y);
     
+        /**
+     * Draw the given message with the font size
+     * @param msg
+     * @param x
+     * @param y
+     * @param fontsize 
+     */
+    public void drawText(String msg, int x, int y, int fontsize);
+    
+    /**
+     * Draw a line from (x1,y1) to (x2,y2)
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2 
+     */
+    public  void drawLine(int x1, int y1, int x2, int y2);
+    
+    /**
+     * Draw the part shown on screen on map
+     */
+    public void drawViewPort(IGameEngine gE);
 }

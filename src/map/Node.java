@@ -17,10 +17,18 @@
  */
 package map;
 
+import EvilCraft.Picture;
+
 /**
  *
  * @author csc190
  */
 public class Node {
+    String _picPath;
     
+    public Node(String picPath){
+        _picPath = picPath;
+    }
+    
+    public String getPic(){return _picPath;}
 }

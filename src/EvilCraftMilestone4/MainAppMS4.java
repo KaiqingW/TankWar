@@ -18,10 +18,8 @@
 package EvilCraftMilestone4;
 
 
-import EvilCraftMilestone3.*;
 import BridgePattern.IGameEngine;
 import EvilCraft.GameEngine;
-import EvilCraftMilestone2.GameTickEfficiency;
 import FXDevices.FXCanvasDevice;
 import FXDevices.FXSoundDevice;
 import javafx.animation.AnimationTimer;
@@ -38,7 +36,6 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;

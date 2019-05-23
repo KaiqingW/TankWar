@@ -79,11 +79,16 @@ public abstract class Sprite {
      * @param other - can not be null
      * @return 
      */
+    
     public boolean isCollidingWith(Sprite other){
         return oneDimensionOverlap(_x, _size, other._x, other._size) &&
                 oneDimensionOverlap(_y, _size, other._y, other._size);
     }
     
+    public boolean isCollidingWith(int x, int y, int size){
+        return oneDimensionOverlap(_x,_size,x,size) &&
+                oneDimensionOverlap(_y, _size, y, size);
+    }
      /**
      * update status of sprite as time goes
      */

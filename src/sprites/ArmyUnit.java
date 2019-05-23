@@ -36,6 +36,11 @@ public abstract class ArmyUnit extends Unit{
     /**
      * update status of sprite as time goes
      */
+    
+    public void moveOutCurrentPos(){
+        
+    }
+    
     public abstract void update();
     
     /**

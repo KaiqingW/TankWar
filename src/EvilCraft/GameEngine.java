@@ -20,8 +20,10 @@ package EvilCraft;
 import BridgePattern.ICanvasDevice;
 import BridgePattern.IGameEngine;
 import BridgePattern.ISoundDevice;
+import FXDevices.FXCanvasDevice;
 import java.util.ArrayList;
 import map.Map;
+import sprites.Base;
 import sprites.Bullet;
 import sprites.Unit;
 
@@ -31,15 +33,15 @@ import sprites.Unit;
  */
 public class GameEngine implements IGameEngine{
     // -------------- DATA MEBERS ------------------
-    protected Map _map;
-    protected ArrayList<Unit> _arrUnits;
-    protected ArrayList<Bullet> _arrBullets;
-    protected ArrayList<Picture> _arrPictures;
+    protected Map _map;   
+    protected ArrayList<Unit> _arrUnits = new ArrayList<Unit>();
+    protected ArrayList<Bullet> _arrBullets = new ArrayList<Bullet>();
+    protected ArrayList<Picture> _arrPictures = new ArrayList<Picture>();
     protected ICanvasDevice _mainview;
     protected ICanvasDevice _minimap;
     protected ICanvasDevice _factoryPanel;
     protected ISoundDevice _soundDevice;
-    protected Team[] _arrTeam;
+    protected Team[] _arrTeam = new Team[2];
     protected static GameEngine _instance = null;
     //---------------- OPERATIONS ------------------
     /**
@@ -64,20 +66,30 @@ public class GameEngine implements IGameEngine{
         _factoryPanel = factoryPanel;
         _soundDevice = soundDevice;
         _instance = this;
+        Base base0 = new Base(0,0,0);
+        Base base1 = new Base(400,400,1);
+        Team t0 = new Team(0,10000,base0);
+        Team t1 = new Team(1,10000,base1);
+        _arrTeam[0] = t0;
+        _arrTeam[1] = t1;
+        _arrUnits.add(base0);
+        _arrUnits.add(base1);
     }
-       /**
+     /**
      * Initialization. maybe used to load game sprites.
      */
+    @Override
+    public void init(){
+        
+    }
     
     public static GameEngine getInstance(){
         return _instance;
     }
     
-    private void initGame(){
-        
-    }
-    @Override
-    public void init(){
+    public Map getMap(){ return _map;}
+    
+    public void update(){
         
     }
     
@@ -87,7 +99,11 @@ public class GameEngine implements IGameEngine{
      */
     @Override
     public void onTick(){
-
+        update();
+        _mainview.drawViewPort(getInstance());
+        for (Unit u: _arrUnits){
+            u.drawOnMainView(_mainview);
+        }
     }
     
     public void addUnit(Unit unit){}
@@ -103,8 +119,7 @@ public class GameEngine implements IGameEngine{
     public void removePic(Unit pic){}
     
     public void detectRange(int x, int y, int range){}
-    
-    public void damage(int damage){}
+
     
     /**
      * Handles the mouse right button click. This operation may be substituted by finger ops on mobile devices.

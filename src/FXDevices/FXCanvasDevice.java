@@ -20,20 +20,19 @@ package FXDevices;
 import BridgePattern.ICanvasDevice;
 import BridgePattern.IGameEngine;
 import BridgePattern.IStopWatch;
+import EvilCraft.GameEngine;
 import EvilCraft.Picture;
-import java.io.File;
-
 import java.io.InputStream;
-import java.net.URL;
 import java.util.Hashtable;
 import java.util.Scanner;
 import javafx.event.EventHandler;
-import javafx.scene.CacheHint;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
+import map.Map;
 
 /**
  * FXVersion Implementation of ICanvasDevice
@@ -45,34 +44,35 @@ public class FXCanvasDevice implements ICanvasDevice {
     //--------------------------------------
     //data members
     //--------------------------------------
-    protected Canvas canvas;
-    protected Hashtable<String, Image> map = new Hashtable();
+    protected Canvas _canvas;
+    protected GraphicsContext _gc;
+    int _xPress, _xRelease, _yPress, _yRelease;
+    boolean _rightClick = false;
+    protected Hashtable<String, Image> _pics = new Hashtable();
     protected long nPixsDrawn = 0;
-    protected int viewportX=0, viewportY = 0;
+    protected int _viewportX=0, _viewportY = 0;
 
     //--------------------------------------
     //methods
     //--------------------------------------
-    protected Image getImage(String picpath) {
-        if (!map.containsKey(picpath)) {
+    public FXCanvasDevice(Canvas canvas) {
+        _canvas = canvas;
+        _gc = _canvas.getGraphicsContext2D();
+        canvas.setCache(false);
+        //canvas.setCacheHint(CacheHint.SPEED);
+    }
+    
+    private Image getImage(String picpath) {
+        if (!_pics.containsKey(picpath)) {
             //Somehow had to chop off the "resources part"
             String path2 = picpath.substring(picpath.indexOf("/") + 1);
             InputStream is = getClass().getClassLoader().getResourceAsStream(path2);
 
             Image img = new Image(is);
-            map.put(picpath, img);
+            _pics.put(picpath, img);
         }
-        return map.get(picpath);
+        return _pics.get(picpath);
     }
-
-    public FXCanvasDevice(Canvas canvas) {
-        this.canvas = canvas;
-        canvas.setCache(false);
-        //canvas.setCacheHint(CacheHint.SPEED);
-
-    }
-
-    protected GraphicsContext mygc = null;
 
     public void drawImg(Picture pic){
         drawImg(pic.getPath(),pic.getX(),pic.getY(),pic.getSize(),pic.getSize(),pic.getDegree());
@@ -80,8 +80,8 @@ public class FXCanvasDevice implements ICanvasDevice {
     
     @Override
     public void drawImg(String imgPath, int x, int y, int width, int height, int degree) {
-        x -= this.viewportX;
-        y -= this.viewportY;
+        x -= _viewportX;
+        y -= _viewportY;
         //1. SPEED IT UP. If not in view port, skip it
         if( (x<=-100 || x>this.getWidth()+100 || y<-100 || y>this.getHeight()+100) ||
                 (x+100<-1000 || x+100>this.getWidth()+100 || y+100<-100 || y+100>this.getHeight()+100) )  {
@@ -102,29 +102,26 @@ public class FXCanvasDevice implements ICanvasDevice {
         
         //2. Real drawing
         Image img = getImage(imgPath);
-        GraphicsContext gc = mygc != null ? mygc : this.canvas.getGraphicsContext2D();
-        mygc = gc;
-
         if (degree > 0) {
-            gc.save();
+            _gc.save();
             Rotate r = new Rotate(degree, x + width / 2, y + height / 2);
-            gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
-            gc.drawImage(img, x, y, width, height);
-            gc.restore();
+            _gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+            _gc.drawImage(img, x, y, width, height);
+            _gc.restore();
         } else {
-            gc.drawImage(img, x, y, width, height);
+            _gc.drawImage(img, x, y, width, height);
         }
 
     }
 
     @Override
     public int getWidth() {
-        return (int) this.canvas.getWidth();
+        return (int) _canvas.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return (int) this.canvas.getHeight();
+        return (int) _canvas.getHeight();
     }
 
     @Override
@@ -133,36 +130,32 @@ public class FXCanvasDevice implements ICanvasDevice {
         return watch;
     }
 
-    protected int x1, x2, y1, y2;
-    protected boolean bRightDown = false;
-
     @Override
     public void setupEventHandler(IGameEngine gameEngine) {
         ICanvasDevice me = this;
         
         //2. set up mouse drag event
-        this.canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
+        _canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-
-                x1 = (int) event.getX();
-                y1 = (int) event.getY();
-                bRightDown = event.isSecondaryButtonDown();
+                _xPress = (int) event.getX();
+                _yPress = (int) event.getY();
+                _rightClick = event.isSecondaryButtonDown();
             }
         });
 
-        this.canvas.setOnMouseReleased(new EventHandler<MouseEvent>() {
+        _canvas.setOnMouseReleased(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                x2 = (int) event.getX();
-                y2 = (int) event.getY();
-                if (x1 != x2 || y1 != y2) {
-                    gameEngine.onRegionSelected(me, x1, y1, x2, y2);
+                _xRelease = (int) event.getX();
+                _yRelease = (int) event.getY();
+                if (_xPress != _xRelease || _yPress != _yRelease) {
+                    gameEngine.onRegionSelected(me, _xPress, _yPress, _xRelease, _yRelease);
                 }else{
-                    if(bRightDown){
-                        gameEngine.onRightClick(me, x1, y1);
+                    if(_rightClick){
+                        gameEngine.onRightClick(me, _xPress, _yPress);
                     }else{
-                        gameEngine.onLeftClick(me, x1, y1);
+                        gameEngine.onLeftClick(me, _xPress, _yPress);
                     }
                 }
             }
@@ -171,18 +164,7 @@ public class FXCanvasDevice implements ICanvasDevice {
 
     @Override
     public void clear() {
-        this.canvas.getGraphicsContext2D().clearRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
-    }
-
-    @Override
-    public String readFile(String filepath) {
-        int idx = filepath.indexOf("resources/");
-        filepath = filepath.substring(idx+"resources/".length());
-        
-        InputStream is = getClass().getClassLoader().getResourceAsStream(filepath);
-        Scanner sc = new Scanner(is);
-        String sContent = sc.useDelimiter("\\Z").next();
-        return sContent;
+        _gc.clearRect(0, 0, _canvas.getWidth(), _canvas.getHeight());
     }
 
     @Override
@@ -192,8 +174,50 @@ public class FXCanvasDevice implements ICanvasDevice {
 
     @Override
     public void setViewPort(int x, int y) {
-        this.viewportX = x;
-        this.viewportY = y;
+        _viewportX = x;
+        _viewportY = y;
     }
-
+    
+    @Override
+    public void drawViewPort(IGameEngine gE){
+        Map m = ((GameEngine)gE).getMap();
+        int height = getHeight()/Map.UNITSIZE + 2;
+        int width = getWidth()/Map.UNITSIZE + 2;
+        int y = _viewportY / Map.UNITSIZE;
+        int x = _viewportX / Map.UNITSIZE;
+        for (int i=0;i<height;i++){
+            for (int j=0;j<width;j++){
+                drawImg(m.getMap()[i][j].getPic(), 
+                        (j + x) * Map.UNITSIZE, 
+                        (i + y) * Map.UNITSIZE, 
+                        Map.UNITSIZE, 
+                        Map.UNITSIZE, 0);
+            }
+        }
+    }
+    /**
+     * Draw the given message with the font size
+     * @param msg
+     * @param x
+     * @param y
+     * @param fontsize 
+     */
+    
+    @Override
+    public void drawText(String msg, int x, int y, int fontsize){
+        _gc.setFont(new Font(fontsize));
+        _gc.strokeText(msg, x, y);
+    }
+    
+    /**
+     * Draw a line from (x1,y1) to (x2,y2)
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2 
+     */
+    @Override
+    public  void drawLine(int x1, int y1, int x2, int y2){
+        _gc.strokeLine(x1, y1, x2, y2);
+    }
 }
