@@ -37,6 +37,7 @@ public class Base extends ConstUnit{
         super(x,y,SIZE,team);
         String bodyPath = "resources/images/" + Team.PICPATH[_team] + "/base/base.png";
         _bodyPic = new Picture(bodyPath, _x, _y, _size);
+        System.out.println(bodyPath);
     }
     
     /**

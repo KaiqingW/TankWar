@@ -94,7 +94,7 @@ public class GameEngine implements IGameEngine{
     public Map getMap(){ return _map;}
     
     public void update(){
-        
+        _mainview.clear();
     }
     
     /**
@@ -110,7 +110,7 @@ public class GameEngine implements IGameEngine{
         }
     }
     
-    public void addUnit(Unit unit){}
+    public void addUnit(Unit unit){ _arrUnits.add(unit);}
     
     public void addBullet(Bullet bullet){}
     

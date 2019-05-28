@@ -5,6 +5,8 @@
         <group>
             <file>file:/home/csc190/kkwalle/EvilCraftMS4/src/EvilCraft/GameEngine.java</file>
             <file>file:/home/csc190/kkwalle/EvilCraftMS4/src/sprites/Tank.java</file>
+            <file>file:/home/csc190/kkwalle/EvilCraftMS4/src/sprites/Base.java</file>
+            <file>file:/home/csc190/kkwalle/EvilCraftMS4/src/FXDevices/FXCanvasDevice.java</file>
         </group>
     </open-files>
 </project-private>
