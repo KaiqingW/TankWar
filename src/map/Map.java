@@ -32,6 +32,7 @@ public class Map {
     
     public Map(String mapPath){
         _mapPath = mapPath;
+        genMap(_mapPath);
     }
     
     private String readFile(String filepath) {
@@ -43,14 +44,16 @@ public class Map {
         return sContent;
     }
     
-    private void genMap(String content){
+    private void genMap(String filePath){
+        String content = readFile(filePath);
         String[] lines = content.split("\n");
         int height = lines.length;
-        int width = lines[0].length();
+        int width = lines[0].split(" ").length;
         MAP = new Node[height][width];
         for (int i=0;i<height;i++){
-            for (int j=0;j<width;j++)
-                MAP[i][j] = new Node(ROOTPATH + lines[i].split(" ")[j]);
+            for (int j=0;j<width;j++){
+                MAP[i][j] = new Node(ROOTPATH + lines[i].split(" ")[j] + ".png");
+            }
         }
     }
     

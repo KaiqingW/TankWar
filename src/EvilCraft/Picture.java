@@ -19,8 +19,6 @@ package EvilCraft;
  */
 
 
-import EvilCraftMilestone3.*;
-
 /**
  *
  * @author csc190

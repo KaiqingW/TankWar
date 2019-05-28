@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/csc190/kkwalle/EvilCraftMS4/src/EvilCraft/Team.java</file>
-            <file>file:/home/csc190/kkwalle/EvilCraftMS4/src/sprites/Base.java</file>
-            <file>file:/home/csc190/kkwalle/EvilCraftMS4/src/sprites/Sprite.java</file>
-            <file>file:/home/csc190/kkwalle/EvilCraftMS4/src/sprites/ArmyUnit.java</file>
+            <file>file:/home/csc190/kkwalle/EvilCraftMS4/src/EvilCraft/GameEngine.java</file>
+            <file>file:/home/csc190/kkwalle/EvilCraftMS4/src/sprites/Tank.java</file>
         </group>
     </open-files>
 </project-private>

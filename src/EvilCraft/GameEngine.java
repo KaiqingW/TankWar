@@ -20,7 +20,6 @@ package EvilCraft;
 import BridgePattern.ICanvasDevice;
 import BridgePattern.IGameEngine;
 import BridgePattern.ISoundDevice;
-import FXDevices.FXCanvasDevice;
 import java.util.ArrayList;
 import map.Map;
 import sprites.Base;
@@ -66,21 +65,26 @@ public class GameEngine implements IGameEngine{
         _factoryPanel = factoryPanel;
         _soundDevice = soundDevice;
         _instance = this;
-        Base base0 = new Base(0,0,0);
-        Base base1 = new Base(400,400,1);
-        Team t0 = new Team(0,10000,base0);
-        Team t1 = new Team(1,10000,base1);
-        _arrTeam[0] = t0;
-        _arrTeam[1] = t1;
-        _arrUnits.add(base0);
-        _arrUnits.add(base1);
+        init();
     }
      /**
      * Initialization. maybe used to load game sprites.
      */
     @Override
     public void init(){
-        
+        teamInit();
+        _mainview.drawViewPort(this);
+    }
+    
+    public void teamInit(){
+        Base base0 = new Base(0,0,0);
+        Base base1 = new Base(400,400,1);
+        Team t0 = new Team(0,10000,base0);
+        Team t1 = new Team(1,10000,base1);
+        _arrTeam[0] = t0;
+        _arrTeam[1] = t1;
+        addUnit(base0);
+        addUnit(base1);
     }
     
     public static GameEngine getInstance(){

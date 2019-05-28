@@ -35,7 +35,7 @@ public class Base extends ConstUnit{
     
     public Base(int x, int y, int team){
         super(x,y,SIZE,team);
-        String bodyPath = "resources/images/" + Team.PICPATH[_team] + "/base/body.png";
+        String bodyPath = "resources/images/" + Team.PICPATH[_team] + "/base/base.png";
         _bodyPic = new Picture(bodyPath, _x, _y, _size);
     }
     

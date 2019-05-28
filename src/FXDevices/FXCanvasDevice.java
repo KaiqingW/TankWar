@@ -180,16 +180,19 @@ public class FXCanvasDevice implements ICanvasDevice {
     
     @Override
     public void drawViewPort(IGameEngine gE){
+        System.out.println(_viewportX +" "+ _viewportY);
         Map m = ((GameEngine)gE).getMap();
         int height = getHeight()/Map.UNITSIZE + 2;
         int width = getWidth()/Map.UNITSIZE + 2;
-        int y = _viewportY / Map.UNITSIZE;
-        int x = _viewportX / Map.UNITSIZE;
+        int dY = _viewportY / Map.UNITSIZE;
+        int dX = _viewportX / Map.UNITSIZE;
         for (int i=0;i<height;i++){
             for (int j=0;j<width;j++){
-                drawImg(m.getMap()[i][j].getPic(), 
-                        (j + x) * Map.UNITSIZE, 
-                        (i + y) * Map.UNITSIZE, 
+                int y = i + dY;
+                int x = j + dX;
+                drawImg(m.getMap()[y][x].getPic(), 
+                        x * Map.UNITSIZE, 
+                        y * Map.UNITSIZE, 
                         Map.UNITSIZE, 
                         Map.UNITSIZE, 0);
             }
