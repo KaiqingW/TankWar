@@ -95,13 +95,10 @@ public class MainAppMS4 extends Application {
                     public void handle(long now) {//handle every tick
                         gameEngine.onTick();
                     }
-
                 };
                 setAnimationTimer(timer);
                 timer.start();
-
             }
-
         });
     }
 
@@ -114,14 +111,14 @@ public class MainAppMS4 extends Application {
     @Override
     public void start(Stage primaryStage) {
         //1. Create the Canvas 1200x1000
-        Canvas canvasMainView = new Canvas(1000, 1000);
+        Canvas canvasMainView = new Canvas(600, 600);
         
         //2. Create Vbox (it has a mini map 200x200 (canvasMainView) and factory panel 200x800 (canvasMainView)
         VBox vboxRight = new VBox();
         vboxRight.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         Canvas canvasMiniMap = new Canvas(200,200);
         FXCanvasDevice fxMiniMap = new FXCanvasDevice(canvasMainView);
-        Canvas canvasFactory = new Canvas(200, 800);
+        Canvas canvasFactory = new Canvas(200, 300);
         FXCanvasDevice fxFactoryPanel = new FXCanvasDevice(canvasFactory);
         canvasMiniMap.getGraphicsContext2D().strokeText("MiniMap", 20, 100);
         canvasFactory.getGraphicsContext2D().strokeText("FACTORY PANEL", 20, 100);
@@ -130,13 +127,14 @@ public class MainAppMS4 extends Application {
                 
         //3. Create the VBox (right banner) 200x100 and Add Buttons
         VBox vboxTestButtons = new VBox();
-        vboxTestButtons.setPrefSize(200, 1000);
+        vboxTestButtons.setPrefSize(200, 600);
         vboxTestButtons.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         FXCanvasDevice fxMainView = new FXCanvasDevice(canvasMainView);
         FXSoundDevice fxSound = new FXSoundDevice();
         
         //4. Create Test Scenario Buttons
         GameEngine g1 = new GameEngine("resources/map/small.txt", fxMainView, fxMiniMap, fxFactoryPanel, fxSound);
+        
         createButton("Test1", g1, vboxTestButtons);
         
        

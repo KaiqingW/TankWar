@@ -35,7 +35,7 @@ public class Infantry extends ArmyUnit{
     
     public Infantry(int x, int y, int team){
         super(x,y,SIZE,team);
-        String bodyPath = "resources/images/" + Team.PICPATH[_team] + "/infantry/body.png";
+        String bodyPath = "resources/images/" + Team.PICPATH[_team] + "/infantry/body.jpeg";
         _bodyPic = new Picture(bodyPath, _x, _y, _size);
     }
     public Infantry(Sprite other){

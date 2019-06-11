@@ -31,8 +31,10 @@ public class ButtonController implements IGameEngine{
     
     public ButtonController(ICanvasDevice canvas,Team team){
         _canvas = canvas;
+        _canvas.setupEventHandler(this);
         _team = team;
         _buttons = new ArrayList<>();
+        
         init();
     }
     

@@ -22,6 +22,7 @@ import BridgePattern.IGameEngine;
 import BridgePattern.ISoundDevice;
 import java.util.ArrayList;
 import map.Map;
+import sprites.ArmyUnit;
 import sprites.Base;
 import sprites.Bullet;
 import sprites.Unit;
@@ -41,6 +42,7 @@ public class GameEngine implements IGameEngine{
     protected ICanvasDevice _factoryPanel;
     protected ISoundDevice _soundDevice;
     protected Team[] _arrTeam = new Team[2];
+    protected ButtonController _humanController;
     protected static GameEngine _instance = null;
     //---------------- OPERATIONS ------------------
     /**
@@ -73,12 +75,13 @@ public class GameEngine implements IGameEngine{
     @Override
     public void init(){
         teamInit();
+        _humanController = new ButtonController(_factoryPanel,_arrTeam[0]);
         _mainview.drawViewPort(this);
     }
     
     public void teamInit(){
-        Base base0 = new Base(0,0,0);
-        Base base1 = new Base(400,400,1);
+        Base base0 = new Base(100,100,0);
+        Base base1 = new Base(500,500,1);
         Team t0 = new Team(0,10000,base0);
         Team t1 = new Team(1,10000,base1);
         _arrTeam[0] = t0;
@@ -95,6 +98,8 @@ public class GameEngine implements IGameEngine{
     
     public void update(){
         _mainview.clear();
+        _mainview.drawViewPort(getInstance());
+
     }
     
     /**
@@ -104,8 +109,10 @@ public class GameEngine implements IGameEngine{
     @Override
     public void onTick(){
         update();
-        _mainview.drawViewPort(getInstance());
         for (Unit u: _arrUnits){
+            u.drawOnMainView(_mainview);
+        }
+        for (ArmyUnit u: _arrTeam[0]._arrAUnit){
             u.drawOnMainView(_mainview);
         }
     }

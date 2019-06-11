@@ -111,7 +111,6 @@ public class FXCanvasDevice implements ICanvasDevice {
         } else {
             _gc.drawImage(img, x, y, width, height);
         }
-
     }
 
     @Override

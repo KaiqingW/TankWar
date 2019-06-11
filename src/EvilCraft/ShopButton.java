@@ -25,7 +25,7 @@ import javafx.scene.canvas.GraphicsContext;
  * @author csc190
  */
 public class ShopButton {
-    public static final String ROOTPATH = "resources/images/commen/button/";
+    public static final String ROOTPATH = "resources/images/common/button/";
     public static final String[] PICPATH = {"infantry.png","tank.png","plane.png"};
     public static final int COOLDOWN = 50;
     int _unit;

@@ -34,7 +34,7 @@ public class Plane extends ArmyUnit{
     
     public Plane(int x, int y, int team){
         super(x,y,SIZE,team);
-        String bodyPath = "resources/images/" + Team.PICPATH[_team] + "/plane/body.png";
+        String bodyPath = "resources/images/" + Team.PICPATH[_team] + "/plane/body.jpeg";
         _bodyPic = new Picture(bodyPath, _x, _y, _size);
     }
     
