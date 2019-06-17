@@ -34,6 +34,7 @@ public class GameEngine implements IGameEngine{
     protected Map _map;
     protected ArrayList<Unit> _arrUnits;
     protected ArrayList<Bullet> _arrBullets;
+    protected ArrayList<Unit> _arrSelected;
     protected ArrayList<Picture> _arrPictures;
     protected ICanvasDevice _mainview;
     protected ICanvasDevice _minimap;
@@ -41,6 +42,8 @@ public class GameEngine implements IGameEngine{
     protected ISoundDevice _soundDevice;
     protected Team[] _arrTeam;
     protected static GameEngine _instance = null;
+    protected static int _miniSize;
+    protected static int _mainSize;
     //---------------- OPERATIONS ------------------
     /**
      * Constructor.
@@ -64,6 +67,8 @@ public class GameEngine implements IGameEngine{
         _factoryPanel = factoryPanel;
         _soundDevice = soundDevice;
         _instance = this;
+        //_miniSize = _minimap.getHeight();
+        _mainSize = _mainview.getHeight();
     }
        /**
      * Initialization. maybe used to load game sprites.
@@ -72,6 +77,10 @@ public class GameEngine implements IGameEngine{
     public static GameEngine getInstance(){
         return _instance;
     }
+    
+    //public static int getMiniSize(){ return _miniSize;}
+    
+    public static int getMainSize(){ return _mainSize;}
     
     private void initGame(){
         
@@ -115,7 +124,10 @@ public class GameEngine implements IGameEngine{
      */
     @Override
     public void onRightClick(ICanvasDevice canvas, int x, int y){
-    
+        Point pt = getGlobalCoordinate(canvas, x, y);
+        for (Unit u: _arrSelected){
+            u.navigateTo(pt);
+        }
     }
     
     
@@ -142,7 +154,44 @@ public class GameEngine implements IGameEngine{
      */
     @Override
     public void onRegionSelected(ICanvasDevice canvas, int x1, int y1, int x2, int y2){
+        Point pt1 = getGlobalCoordinate(canvas, x1, y1);
+        Point pt2 = getGlobalCoordinate(canvas, x2, y2);
+        _arrSelected = getArrSprites(pt1, pt2, 0);
     }
     
+        public ArrayList<Unit> getArrSprites(Point pt1, Point pt2, int team){
+         //slow version
+         ArrayList<Unit> toRet = new ArrayList<Unit>();
+         for(Unit u: _arrUnits){
+             if(u._team == team){
+                 int x1 = u._x;
+                 int y1 = sp.y;
+                 int w1 = sp.w;
+                 int h1 = sp.h;
+                 int x2 = pt1.x;
+                 int y2 = pt1.y;
+                 int w2 = pt2.x-pt1.x;
+                 int h2 = pt2.y-pt1.y;
+                 if(isCollide(x1, y1, w1, h1, x2, y2, w2, h2)){
+                     toRet.add(sp);
+                 }
+             }
+         }
+         return toRet;
+    }
     
+    public Point getGlobalCoordinate(ICanvasDevice canvas, int x, int y){
+        int cw = canvas.getWidth();
+        int ch = canvas.getHeight();
+        int mw = _map.getNumCols() * 100;
+        int mh = _map.getNumRows() * 100;
+        int x2 = canvas == _mainview? canvas.viewX() + x: canvas.viewX() + x * mw/cw;
+        int y2 = canvas == _mainview? canvas.viewY() + y: canvas.viewY() + y * mh/ch;
+        return new Point(x2,y2); 
+    }
+    
+    public Point getNewLeftTopCoordinates(Point center, ICanvasDevice mainview){
+        Point nl = new Point(center._x- mainview.getWidth()/2, center._y - mainview.getHeight()/2);
+        return nl;
+    }
 }

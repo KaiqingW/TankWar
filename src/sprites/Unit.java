@@ -17,10 +17,38 @@
  */
 package sprites;
 
+import BridgePattern.ICanvasDevice;
+import EvilCraft.GameEngine;
+import EvilCraft.Point;
+import EvilCraft.Team;
 /**
  *
  * @author csc190
  */
 public abstract class Unit extends Sprite{
+
+    public void update(){}
     
+    /**
+     * Draw itself on main view, mostly like pictures
+     * @param mainview - canvas device
+     */
+    public abstract void drawOnMainView(ICanvasDevice mainview);
+    
+    /**
+     * Draw itself on mini map, most likely colored squares
+     * @param minimap - canvas device
+     */
+    public void drawOnMiniMap(ICanvasDevice minimap){
+        int mainSize = GameEngine.getInstance().getMainSize();
+        int miniSize = minimap.getHeight();
+        String color =_team >= 0 ? "#FF0000" : "#0000FF";
+        minimap.drawRectangle(_x * miniSize / mainSize, 
+                _y * miniSize / mainSize, 
+                _size * miniSize / mainSize, 
+                _size * miniSize / mainSize,
+                color);
+    }
+    
+    public abstract void navigateTo(Point pt);
 }

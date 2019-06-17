@@ -25,11 +25,15 @@ import EvilCraft.Picture;
  * @author csc190
  */
 public class Map {
-    protected Picture[] _map;
+    protected Picture[][] _map;
     protected String _mapPath;
     
     public Map(String mapPath){
         _mapPath = mapPath;
     }
+    
+    public int getNumCols(){ return _map[0].length; }
+    
+    public int getNumRows(){ return _map.length; }
     
 }

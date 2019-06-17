@@ -32,6 +32,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 
 /**
@@ -47,7 +48,7 @@ public class FXCanvasDevice implements ICanvasDevice {
     protected Canvas canvas;
     protected Hashtable<String, Image> map = new Hashtable();
     protected long nPixsDrawn = 0;
-    protected int viewportX=0, viewportY = 0;
+    protected int _viewportX=0, _viewportY = 0;
 
     //--------------------------------------
     //methods
@@ -75,8 +76,8 @@ public class FXCanvasDevice implements ICanvasDevice {
 
     @Override
     public void drawImg(String imgPath, int x, int y, int width, int height, int degree) {
-        x -= this.viewportX;
-        y -= this.viewportY;
+        x -= this._viewportX;
+        y -= this._viewportY;
         //1. SPEED IT UP. If not in view port, skip it
         if( (x<=-100 || x>this.getWidth()+100 || y<-100 || y>this.getHeight()+100) ||
                 (x+100<-1000 || x+100>this.getWidth()+100 || y+100<-100 || y+100>this.getHeight()+100) )  {
@@ -187,8 +188,24 @@ public class FXCanvasDevice implements ICanvasDevice {
 
     @Override
     public void setViewPort(int x, int y) {
-        this.viewportX = x;
-        this.viewportY = y;
+        this._viewportX = x;
+        this._viewportY = y;
     }
+    
+    @Override
+    public int viewX(){return _viewportX;}
+    
+    @Override
+    public int viewY(){return _viewportY;}
+    
+    
+    
+    public void drawRectangle(int x, int y, int w, int h, String color){
+        GraphicsContext gc = this.canvas.getGraphicsContext2D();
+        Color cColor = Color.web(color);
+        gc.setFill(cColor);
+        gc.fillRect(x, y, w, h);
+    }
+
 
 }

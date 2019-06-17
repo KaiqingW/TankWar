@@ -17,10 +17,20 @@
  */
 package sprites;
 
+import BridgePattern.ICanvasDevice;
+import EvilCraft.Point;
+
 /**
  *
  * @author csc190
  */
-public class ArmyUnit extends Unit{
+public abstract class ArmyUnit extends Unit{
+    Point _dest;
+    public void update(){}
     
+    public abstract void drawOnMainView(ICanvasDevice mainview);
+    
+    public void navigateTo(Point pt){
+        _dest = pt;
+    }
 }

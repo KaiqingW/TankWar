@@ -17,10 +17,15 @@
  */
 package sprites;
 
+import BridgePattern.ICanvasDevice;
+
 /**
  *
  * @author csc190
  */
 public class Plane extends ArmyUnit{
-    
+        public void update(){}
+
+    public void drawOnMainView(ICanvasDevice mainview){
+    }
 }

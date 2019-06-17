@@ -15,32 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package sprites;
-
-import BridgePattern.ICanvasDevice;
+package EvilCraft;
 
 /**
  *
  * @author csc190
  */
-public class Bullet extends Sprite{
-    public void update(){
-        
-    }
-    
-    /**
-     * Draw itself on main view, mostly like pictures
-     * @param mainview - canvas device
-     */
-    public void drawOnMainView(ICanvasDevice mainview){
-    
-    }
-    
-    /**
-     * Draw itself on mini map, most likely colored squares
-     * @param minimap - canvas device
-     */
-    public void drawOnMiniMap(ICanvasDevice minimap){
-        
+public class Point {
+    public int _x;
+    public int _y;
+    public Point(int x, int y){
+        _x = x;
+        _y = y;
     }
 }

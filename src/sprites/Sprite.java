@@ -24,7 +24,12 @@ import BridgePattern.ICanvasDevice;
  * @author csc190
  */
 public abstract class Sprite {
-     /**
+    int _x;
+    int _y;
+    int _size;
+    public int _team;
+    
+    /**
      * update its own data attributes
      */
     public abstract void update();

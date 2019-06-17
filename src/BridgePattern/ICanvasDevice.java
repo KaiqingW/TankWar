@@ -90,4 +90,8 @@ public interface ICanvasDevice {
      */
     public void setViewPort(int x, int y);
     
+    public void drawRectangle(int x, int y, int w, int h, String color);
+
+    public int viewX();
+    public int viewY();
 }

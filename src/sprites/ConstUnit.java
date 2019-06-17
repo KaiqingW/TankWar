@@ -17,10 +17,18 @@
  */
 package sprites;
 
+import BridgePattern.ICanvasDevice;
+import EvilCraft.Point;
+
 /**
  *
  * @author csc190
  */
 public class ConstUnit extends Unit{
+    public void update(){}
+
+    public void drawOnMainView(ICanvasDevice mainview){
+    }
     
+    public void navigateTo(Point pt){}
 }
