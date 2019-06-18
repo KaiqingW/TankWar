@@ -18,6 +18,7 @@
 package sprites;
 
 import BridgePattern.ICanvasDevice;
+import EvilCraft.Point;
 
 /**
  *
@@ -32,6 +33,10 @@ public abstract class Sprite {
     
     
     public boolean isCollidingWith(int x, int y, int dX, int dY){
+        throw new RuntimeException("not implemented yet");
+    }
+    
+    public boolean isCollidingWith(Point p){
         throw new RuntimeException("not implemented yet");
     }
     /**

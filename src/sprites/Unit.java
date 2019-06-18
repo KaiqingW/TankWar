@@ -51,4 +51,6 @@ public abstract class Unit extends Sprite{
     }
     
     public abstract void navigateTo(Point pt);
+    
+    public abstract void setTargetTo(Unit u);
 }

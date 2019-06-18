@@ -33,4 +33,6 @@ public abstract class ArmyUnit extends Unit{
     public void navigateTo(Point pt){
         _dest = pt;
     }
+    
+    public void setTargetTo(Unit u){}
 }

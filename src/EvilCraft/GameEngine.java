@@ -23,6 +23,7 @@ import BridgePattern.ISoundDevice;
 import java.util.ArrayList;
 import map.Map;
 import sprites.Bullet;
+import sprites.MouseSprite;
 import sprites.Unit;
 
 /**
@@ -42,8 +43,8 @@ public class GameEngine implements IGameEngine{
     protected ISoundDevice _soundDevice;
     protected Team[] _arrTeam;
     protected static GameEngine _instance = null;
-    protected static int _miniSize;
     protected static int _mainSize;
+    protected MouseSprite _mouse;
     //---------------- OPERATIONS ------------------
     /**
      * Constructor.
@@ -67,8 +68,8 @@ public class GameEngine implements IGameEngine{
         _factoryPanel = factoryPanel;
         _soundDevice = soundDevice;
         _instance = this;
-        //_miniSize = _minimap.getHeight();
         _mainSize = _mainview.getHeight();
+        _mouse = new MouseSprite(_mainview, _minimap);
     }
        /**
      * Initialization. maybe used to load game sprites.
@@ -125,9 +126,12 @@ public class GameEngine implements IGameEngine{
     @Override
     public void onRightClick(ICanvasDevice canvas, int x, int y){
         Point pt = getGlobalCoordinate(canvas, x, y);
-        for (Unit u: _arrSelected){
-            u.navigateTo(pt);
-        }
+        Unit target = getUnit(pt, 0);
+            for (Unit u: _arrSelected){
+                if (target == null) u.navigateTo(pt);
+                else u.setTargetTo(target);
+            }
+        _mouse.handleEvnet(MouseEvent.RightClick, canvas, x, y, _arrSelected);
     }
     
     
@@ -145,7 +149,8 @@ public class GameEngine implements IGameEngine{
             Point pt = getGlobalCoordinate(canvas, x, y);
             _mainview.setViewPort(pt._x-_mainview.getWidth()/2, pt._y-_mainview.getHeight()/2);
         }else if (canvas == _mainview) 
-            _arrSelected = getArrUnits(new Point(x-25,y-25),new Point(x+25,y+25),0);
+            _arrSelected.add(getUnit(new Point(x,y),0));
+        _mouse.handleEvnet(MouseEvent.LeftClick, canvas, x, y, null);
     }
     
     /**
@@ -166,7 +171,7 @@ public class GameEngine implements IGameEngine{
     
     @Override
     public void mouseMove(ICanvasDevice canvas, int x, int y){
-        
+        _mouse.handleEvnet(MouseEvent.MouseMove, canvas, x, y, null);
     }
     
     public ArrayList<Unit> getArrUnits(Point pt1, Point pt2, int team){
@@ -187,6 +192,17 @@ public class GameEngine implements IGameEngine{
         return inRange;
     }
     
+    public Unit getUnit(Point p, int team){
+        for(Unit u: _arrUnits){
+            if(u._team == -1 || u._team != team){
+                if (u.isCollidingWith(p)){
+                    return u;
+                }
+            } 
+        }
+        return null;
+    }
+            
     public Point getGlobalCoordinate(ICanvasDevice canvas, int x, int y){
         int cw = canvas.getWidth();
         int ch = canvas.getHeight();

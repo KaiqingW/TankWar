@@ -31,4 +31,6 @@ public class ConstUnit extends Unit{
     }
     
     public void navigateTo(Point pt){}
+    
+    public void setTargetTo(Unit u){}
 }
