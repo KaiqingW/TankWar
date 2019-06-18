@@ -65,4 +65,5 @@ public interface IGameEngine {
      */
     public void onRegionSelected(ICanvasDevice canvas, int x1, int y1, int x2, int y2);
     
+    public void mouseMove(ICanvasDevice canvas, int x, int y);
 }

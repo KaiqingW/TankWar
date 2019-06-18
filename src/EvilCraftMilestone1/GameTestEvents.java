@@ -26,6 +26,7 @@ import BridgePattern.IGameEngine;
  */
 public class GameTestEvents implements IGameEngine{
     //data members
+    public void mouseMove(ICanvasDevice canvas,int x, int y){}
     protected ICanvasDevice canvasDevice;
     
     public GameTestEvents(ICanvasDevice canvas){

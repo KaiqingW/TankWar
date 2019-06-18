@@ -68,7 +68,7 @@ public class GameTickEfficiency implements IGameEngine {
             this.sprites.add(s);
         }
     }
-
+public void mouseMove(ICanvasDevice canvas,int x, int y){}
     /**
      * Update the location and states of all sprites.
      */

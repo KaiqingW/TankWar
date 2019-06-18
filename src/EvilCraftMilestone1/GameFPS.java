@@ -60,7 +60,7 @@ public class GameFPS implements IGameEngine {
         this.timer = canvas.createStopWatch("FPSWatch");
         this.timerOnTick = canvas.createStopWatch("onTick");
     }
-
+public void mouseMove(ICanvasDevice canvas,int x, int y){}
     @Override
     public void init() {
         //do nothing

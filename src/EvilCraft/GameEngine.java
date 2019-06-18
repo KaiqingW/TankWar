@@ -140,8 +140,13 @@ public class GameEngine implements IGameEngine{
      */
     @Override
     public void onLeftClick(ICanvasDevice canvas, int x, int y){
+        _arrSelected = null;
+        if(canvas == _minimap){
+            Point pt = getGlobalCoordinate(canvas, x, y);
+            _mainview.setViewPort(pt._x-_mainview.getWidth()/2, pt._y-_mainview.getHeight()/2);
+        }else if (canvas == _mainview) 
+            _arrSelected = getArrUnits(new Point(x-25,y-25),new Point(x+25,y+25),0);
     }
-    
     
     /**
      * Handles the mouse drag and then release event. This operation may be substituted by finger ops on mobile devices.
@@ -156,28 +161,30 @@ public class GameEngine implements IGameEngine{
     public void onRegionSelected(ICanvasDevice canvas, int x1, int y1, int x2, int y2){
         Point pt1 = getGlobalCoordinate(canvas, x1, y1);
         Point pt2 = getGlobalCoordinate(canvas, x2, y2);
-        _arrSelected = getArrSprites(pt1, pt2, 0);
+        _arrSelected = getArrUnits(pt1, pt2, 0);
     }
     
-        public ArrayList<Unit> getArrSprites(Point pt1, Point pt2, int team){
+    @Override
+    public void mouseMove(ICanvasDevice canvas, int x, int y){
+        
+    }
+    
+    public ArrayList<Unit> getArrUnits(Point pt1, Point pt2, int team){
          //slow version
-         ArrayList<Unit> toRet = new ArrayList<Unit>();
-         for(Unit u: _arrUnits){
-             if(u._team == team){
-                 int x1 = u._x;
-                 int y1 = sp.y;
-                 int w1 = sp.w;
-                 int h1 = sp.h;
-                 int x2 = pt1.x;
-                 int y2 = pt1.y;
-                 int w2 = pt2.x-pt1.x;
-                 int h2 = pt2.y-pt1.y;
-                 if(isCollide(x1, y1, w1, h1, x2, y2, w2, h2)){
-                     toRet.add(sp);
-                 }
-             }
-         }
-         return toRet;
+        ArrayList<Unit> inRange = new ArrayList<Unit>();
+        for(Unit u: _arrUnits){
+
+            if(u._team == -1 || u._team == team){
+                int x = pt1._x - u._size;
+                int y = pt1._y - u._size;
+                int dX = pt2._x - x - u._size;
+                int dY = pt2._y - y - u._size;
+                if (u.isCollidingWith(x,y,dX,dY)){
+                    inRange.add(u);
+                }
+            } 
+        }
+        return inRange;
     }
     
     public Point getGlobalCoordinate(ICanvasDevice canvas, int x, int y){

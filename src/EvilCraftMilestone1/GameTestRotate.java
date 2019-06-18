@@ -30,7 +30,7 @@ public class GameTestRotate implements IGameEngine{
     protected int degrees = 0; //degrees to rotate
     
     // ---- METHODS -----------
-    
+    public void mouseMove(ICanvasDevice canvas,int x, int y){}
     public GameTestRotate(ICanvasDevice canvas){
         this.canvas = canvas;
     }

@@ -34,7 +34,7 @@ public class GameTestSound implements IGameEngine{
     public GameTestSound(ISoundDevice sound){
         this.soundDevice = sound;
     }
-
+public void mouseMove(ICanvasDevice canvas,int x, int y){}
     @Override
     public void init() {
         this.soundDevice.playRepeated("resources/sound/drama.wav");

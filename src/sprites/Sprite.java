@@ -26,9 +26,14 @@ import BridgePattern.ICanvasDevice;
 public abstract class Sprite {
     int _x;
     int _y;
-    int _size;
+    public int _size;
     public int _team;
     
+    
+    
+    public boolean isCollidingWith(int x, int y, int dX, int dY){
+        throw new RuntimeException("not implemented yet");
+    }
     /**
      * update its own data attributes
      */

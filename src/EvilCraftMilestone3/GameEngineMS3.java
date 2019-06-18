@@ -44,7 +44,6 @@ public class GameEngineMS3 extends EvilCraftGameEngine {
         super(mapPath, canvas, sound, size);
         this.size = size;
         inst = this;
-
     }
     
     public void registerGameObj(IGameObject obj){
@@ -60,6 +59,8 @@ public class GameEngineMS3 extends EvilCraftGameEngine {
             this.removePic(pic);
         }
     }
+    
+    public void mouseMove(ICanvasDevice canvas,int x, int y){}
     
     public void addPic(Picture pic){
         this.arrPics.add(pic);

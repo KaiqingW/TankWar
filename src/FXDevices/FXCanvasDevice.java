@@ -146,6 +146,17 @@ public class FXCanvasDevice implements ICanvasDevice {
                 bRightDown = event.isSecondaryButtonDown();
             }
         });
+        
+        this.canvas.setOnMouseMoved(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent event){
+                x1 = (int) event.getX();
+                y1 = (int) event.getY();
+                if(!event.isPrimaryButtonDown()){
+                    gameEngine.mouseMove(me, x1, y1);
+                }
+            }
+        });
 
         this.canvas.setOnMouseReleased(new EventHandler<MouseEvent>() {
             @Override
