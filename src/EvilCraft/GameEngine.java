@@ -41,6 +41,7 @@ public class GameEngine implements IGameEngine{
     protected ISoundDevice _soundDevice;
     protected Team[] _arrTeam;
     protected static GameEngine _instance = null;
+    protected AI _ai;
     //---------------- OPERATIONS ------------------
     /**
      * Constructor.
@@ -74,8 +75,10 @@ public class GameEngine implements IGameEngine{
     }
     
     private void initGame(){
-        
+        _ai = new AI(_arrTeam[1]);
+        _ai.setTarget((Unit)(_arrTeam[0]._base));
     }
+    
     @Override
     public void init(){
         

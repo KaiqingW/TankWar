@@ -15,29 +15,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package map;
-
-import EvilCraft.Picture;
-import java.util.HashSet;
-
+package EvilCraft;
+import BridgePattern.ICanvasDevice;
 
 /**
  *
  * @author csc190
  */
-public class Map {
-    static final HashSet<String> OBSTACLE = new HashSet(){{
-        add("t1");
-        add("t2");
-    }};
-    protected String _mapPath;
-    String[][] _tiles;
-    int[][] _naviMap;
+public class ButtonController {
+    Team _team;
+    public ShopButton[] _arrShopB;
     
-    public Map(String mapPath){
-        _mapPath = mapPath;
+    public ButtonController(Team t){
+        _team = t;
+        _arrShopB = new ShopButton[3];
+        for (int i=0;i<_arrShopB.length;i++) 
+            _arrShopB[i] = new ShopButton(_team, i);
     }
     
-    void init(){}
     
 }

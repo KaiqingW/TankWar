@@ -24,6 +24,9 @@ import BridgePattern.ICanvasDevice;
  * @author csc190
  */
 public abstract class Sprite {
+    int _x;
+    int _y;
+    int _speed;
      /**
      * update its own data attributes
      */

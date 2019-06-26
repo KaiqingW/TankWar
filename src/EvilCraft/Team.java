@@ -16,11 +16,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 package EvilCraft;
+import sprites.*;
 
 /**
  *
  * @author csc190
  */
 public class Team {
+    int [] _arrUnitAmt;
+    public ArmyUnit[] _armyUnitModule;
+    public Base _base;
     
 }
