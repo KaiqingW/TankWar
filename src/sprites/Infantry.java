@@ -17,16 +17,15 @@
  */
 package sprites;
 
-import EvilCraftMilestone4.GameEngineMS4;
-import EvilCraftMilestone4.Picture;
-import EvilCraftMilestone4.Team;
+import EvilCraft.GameEngine;
+import EvilCraft.Team;
 import java.util.ArrayList;
 
 /**
  *
  * @author csc190
  */
-public class Infantry extends Unit{
+public class Infantry extends ArmyUnit{
     private static final int COOLRATE = 15;
     private static final int LIFE = 20;
     private static final int SHOOTRANGE = 50;
@@ -39,37 +38,35 @@ public class Infantry extends Unit{
         _shootRange = SHOOTRANGE;
         _gunDir = heading;
         _speed = SPEED;
-        String bodyPath = "resources/images/" + team.getName() + "/infantry/body.png";
-        _bodyPic = new Picture(bodyPath,_x,_y,_size);
-        _bodyPic.setDegree(_heading);
+        _bodyPic = "resources/images/" + team.getName() + "/infantry/body.png";
     }
     
     @Override
     public void update(){
-        GameEngineMS4 ge = GameEngineMS4.getInstance();
-        if (_isBusy) navigate();
-        if (_target != null){
-            if (_target.isDead()) {
-                _target = null;
+        GameEngine ge = GameEngine.getInstance();
+        if (_target != null) navigate();
+        if (_tempTarget != null){
+            if (Boolean.parseBoolean(_tempTarget.split(",")[2])) {
+                _tempTarget = null;
             }else gunRotation();
-        } else detect(ge._arrUnits);
-        _bodyPic.update(_x, _y, _heading);
-        if (_coolDown != 0) _coolDown --; 
+        } else _tempTarget = ge.isEnemyShow(this);
+        if (_coolDown != 0) _coolDown --;
     }
      /**
      * Draw itself on main view, mostly like pictures
      * @param mainview - canvas device
      */
     @Override
-    public ArrayList<Picture> getMainPictures(){
-        ArrayList<Picture> ans = new ArrayList<Picture>();
+    public ArrayList<String> getMainPictures(){
+        ArrayList<String> ans = new ArrayList<String>();
         ans.add(_bodyPic);
         return ans;
     }
     
     public void gunRotation(){
-        _heading = getDegree(_target._x, _target._y);
-        if (_coolDown == 0) fire();
+        int targetX = Integer.parseInt(_target.split(",")[0]);
+        int targetY = Integer.parseInt(_target.split(",")[1]);
+        if (_coolDown == 0) fire(targetX,targetY);
     }
         
     private int getDegree(int x, int y){
@@ -77,14 +74,10 @@ public class Infantry extends Unit{
         return degree;
     }
     
-    public void fire(){
-        Bullet bullet = new InfBullet(_x, _y, _heading,_target._x, _target._y, _team);
-        GameEngineMS4 ge = GameEngineMS4.getInstance();
+    public void fire(int targetX, int targetY){
+        Bullet bullet = new InfBullet(_x, _y, _heading,targetX, targetY, _team);
+        GameEngine ge = GameEngine.getInstance();
         ge.addBullet(bullet);
-        ge.addMiniPic(bullet.getMiniPictures());
-        for (Picture p: bullet.getMainPictures()){
-            ge.addPic(p);
-        }
         _coolDown = COOLRATE;
     }
 }

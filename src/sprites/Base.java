@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 csc190
+ * Copyright (C) 2019 h701819588
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,46 +17,35 @@
  */
 package sprites;
 
-import EvilCraft.GameEngine;
 import EvilCraft.Picture;
 import EvilCraft.Team;
 import java.util.ArrayList;
 
 /**
  *
- * @author csc190
+ * @author h701819588
  */
-public abstract class Unit extends Sprite{
-    int _life;
-
+public class Base extends ConstUnit{
+    private static final int LIFE = 1000;
+    private static final int SIZE = 100;
     
-    // constructor
-    public Unit(int x, int y, int size, int heading, Team team){
+    public Base(int x, int y, int size, int heading, Team team){
         super(x,y,size,heading,team);
     }
-    @Override
-    public abstract void update();
     
-    public abstract void fire(int targetX, int targetY);
-    /**
-     * Draw itself on main view, mostly like pictures
-     * @param mainview - canvas device
-     */
-    @Override
-    public abstract ArrayList<String> getMainPictures();
-        
-    @Override
-    public boolean isDead(){
-        return _life <= 0;
+    public void update(){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public void navigate(){}
-    
-    
-    public String isTargeted(){
-        return "" + _x + "," + _y + "," + isDead();
+    public ArrayList<String> getMainPictures(){
+        ArrayList<String> myList = new ArrayList<>();
+        myList.add(_bodyPic);
+        return myList;
     }
-    
-    public void getDamage(int damage){ _life -= damage;}
 
+    @Override
+    public void fire(int targetX, int targetY) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }

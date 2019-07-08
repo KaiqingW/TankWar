@@ -17,6 +17,8 @@
  */
 package sprites;
 
+import EvilCraft.Team;
+import EvilCraft.Picture;
 import BridgePattern.ICanvasDevice;
 import EvilCraftMilestone4.*;
 import java.util.ArrayList;
@@ -37,8 +39,7 @@ public abstract class Sprite {
     int _destY;
     int _speed;
     Team _team;
-    Picture _bodyPic;
-    Picture _miniPic;
+    String _bodyPic;
     
     public Sprite(int x,int y,int size, int heading, Team team){
         _x = x;
@@ -46,8 +47,6 @@ public abstract class Sprite {
         _size = size;
         _heading = heading;
         _team = team;
-        String miniPath = "resources/images/" + team.getName() + "mini.png";
-        _miniPic = new Picture(miniPath,_x,_y,1);
     }
     
     public int getX(){ return _x;}
@@ -82,11 +81,7 @@ public abstract class Sprite {
      * @param mainview - canvas device
      */
  
-    public abstract ArrayList<Picture> getMainPictures();
-    
-    public Picture getMiniPictures(){
-        return _miniPic;
-    }
+    public abstract ArrayList<String> getMainPictures();
     
     public abstract boolean isDead();
 }

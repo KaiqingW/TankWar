@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 csc190
+ * Copyright (C) 2019 h701819588
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,31 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package EvilCraftMilestone4;
+package EvilCraft;
 
-import java.util.Hashtable;
 /**
  *
- * @author csc190
+ * @author h701819588
  */
-public class Team implements Comparable<Team>{
-    static final Hashtable<Integer,String> idName = new Hashtable<Integer,String>(){{
-        put(1,"red");
-        put(2,"yellow");
-    }};
-    
-    int _id;
-    String _name;
-    
-    public Team(int id) {
-        _id = id;
-        _name = idName.get(_id);
-    }
-    
-    public String getName(){ return _name;}
-    
-    @Override
-    public int compareTo(Team other){
-        return _id - other._id;
-    }
+public class Point {
+    public int _x;
+    public int _y;
 }

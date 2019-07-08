@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 csc190
+ * Copyright (C) 2019 h701819588
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,26 +17,30 @@
  */
 package sprites;
 
-import EvilCraft.GameEngine;
 import EvilCraft.Picture;
 import EvilCraft.Team;
 import java.util.ArrayList;
 
 /**
  *
- * @author csc190
+ * @author h701819588
  */
-public abstract class Unit extends Sprite{
-    int _life;
-
+public abstract class ArmyUnit extends Unit{
+        int _shootRange;
+    int _gunDir;
+    int _coolDown;
+    String _target;
+    String _tempTarget;
     
-    // constructor
-    public Unit(int x, int y, int size, int heading, Team team){
+    
+    ArmyUnit(int x, int y, int size, int heading, Team team){
         super(x,y,size,heading,team);
     }
+    
     @Override
     public abstract void update();
     
+    @Override
     public abstract void fire(int targetX, int targetY);
     /**
      * Draw itself on main view, mostly like pictures
@@ -44,19 +48,32 @@ public abstract class Unit extends Sprite{
      */
     @Override
     public abstract ArrayList<String> getMainPictures();
-        
-    @Override
-    public boolean isDead(){
-        return _life <= 0;
-    }
     
+    public int getShootRange(){ return _shootRange;}
+
     public void navigate(){}
     
     
-    public String isTargeted(){
-        return "" + _x + "," + _y + "," + isDead();
+    public String isTargeted(){ return "" + _x + "," + _y + "," + isDead();}
+    
+    public boolean havingTarget(){ return _target != null;}
+    
+    public boolean havingTempTarget(){
+        return _tempTarget != null;
     }
     
-    public void getDamage(int damage){ _life -= damage;}
-
+    public boolean inShootRange(Unit other){
+        int rangeX = _x - _shootRange/2 - _size/2;
+        int rangeY = _y - _shootRange/2 - _size/2;
+        return  super.oneDimensionOverlap(rangeX, _shootRange, other._x, other._size) && 
+                super.oneDimensionOverlap(rangeY, _shootRange, other._y, other._size);
+    }
+    
+    public void setTempTarget(String enemy){
+        _tempTarget = enemy;
+    }
+             
+    public void setTargetTo(String enemy){
+        _target = enemy;
+    }
 }

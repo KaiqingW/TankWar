@@ -17,69 +17,192 @@
  */
 package EvilCraft;
 
-import BridgePattern.ICanvasDevice;
-import BridgePattern.IGameEngine;
-import BridgePattern.ISoundDevice;
-
+import javafx.scene.image.Image;
+import BridgePattern.*;
+import map.Map;
+import sprites.*;
+import java.util.ArrayList;
 /**
  *
  * @author csc190
  */
 public class GameEngine implements IGameEngine{
-    // -------------- DATA MEBERS ------------------
-    protected String mapPath;
-    protected ICanvasDevice mainview;
-    protected ICanvasDevice minimap;
-    protected ISoundDevice soundDevice;
-    protected ICanvasDevice factoryPanel;
-    protected static GameEngine ge_instance = null;
-    //---------------- OPERATIONS ------------------
-    /**
-     * Constructor.
-     * An evil craft game engine has 3 canvases: main view, mini map and a panel for manufacturing units
-     * @param mapPath
-     * @param mainview
-     * @param minimap
-     * @param factoryPanel
-     * @param sound 
+    protected int _viewportX = 0, _viewportY = 0;
+    protected Map _map;
+    protected Image _minimap;
+    public ArrayList<Unit> _arrUnits;
+    protected ArrayList<Bullet> _arrBullets;
+    protected ArrayList<Picture> _arrPictures;
+    protected ArrayList<Picture> _arrMiniPics;
+    protected ICanvasDevice _mainview;
+    protected ICanvasDevice _miniview;
+    protected ICanvasDevice _factoryPanel;
+    protected ISoundDevice _soundDevice;
+    protected Team[] _arrTeam;
+    protected static GameEngine _inst;
+    
+    //constructor
+    public GameEngine(String mapPath,
+                          ICanvasDevice mainview,
+                          ICanvasDevice minimap,
+                          ICanvasDevice factoryPanel,
+                          ISoundDevice soundDevice)
+    {
+        _map = new Map(mapPath);
+        _mainview = mainview;
+        _miniview = minimap;
+        _factoryPanel = factoryPanel;
+        _soundDevice = soundDevice;
+        _inst = this;
+    }
+       /**
+     * Initialization. maybe used to load game sprites.
      */
-    public GameEngine(String mapPath, ICanvasDevice mainview, ICanvasDevice minimap, ICanvasDevice factoryPanel, ISoundDevice sound){
-        this.mapPath = mapPath;
-        this.mainview = mainview;
-        this.minimap = minimap;
-        this.soundDevice = soundDevice;
-        ge_instance = this;
+    private void initGame(){
+        _map.init(_mainview);
     }
     
-    public static GameEngine getInstance(){
-        return ge_instance;
-    }
-
     @Override
-    public void init() {
-        //DON'T KILL THE following line
-        ge_instance  = this;
-        //DON'T KILL THE ABOVE LINE
+    public void init(){
+        initGame();
     }
-
-    @Override
-    public void onTick() {
+    
+    public void update(){
+        _mainview.clear();
+        _miniview.clear(_minimap);
+        drawMap();
+        
+        updateAllSprites();
+        drawAllPics();
+    }
+    
+    public String isEnemyShow(Unit unit){
+        for (Unit u: _arrUnits){
+            if (unit.isEnemy(u.getTeam())){
+                int rangeX = unit.getX() - unit.getShootRange()/2 - unit.getSize()/2;
+                int rangeY = unit.getY() - unit.getShootRange()/2 - unit.getSize()/2;
+                
+                if (Sprite.oneDimensionOverlap(rangeX, unit.getShootRange(), u.getX(), u.getSize()) && 
+                Sprite.oneDimensionOverlap(rangeY, unit.getShootRange(), u.getY(), u.getSize())){
+                    return u.isTargeted();
+                }   
+            }
+        }
+        return null;
+    }
+    
+    public void updateAllSprites(){
+        for (Unit u: _arrUnits) {
+            u.update();
+            if (u.isDead()){
+                removeUnit(u);
+                for (Picture p: u.getMainPictures())
+                    removePic(p);
+                removeMiniPic(u.getMiniPictures());
+            }
+        }
+        for (Bullet b: _arrBullets) {
+            b.update();
+            if (b.isDead()){
+                damage(b);
+                for (Picture p: b.getMainPictures())
+                    removePic(p);
+                removeMiniPic(b.getMiniPictures());
+            }
+        }
+    }
+    public void drawMap(){
         
     }
-
-    @Override
-    public void onRightClick(ICanvasDevice canvas, int x, int y) {
-        
+    
+    public void drawAllPics(){
+        for(Picture pic: _arrPictures){
+            _mainview.drawImg(pic.getImg(), pic.getX()-_viewportX, pic.getY()-_viewportY,
+                    pic.getSize(), pic.getSize(), pic.getDegree());
+        }
+        for(Picture pic: _arrMiniPics){
+            _miniview.drawImg(pic.getImg(), pic.getX()-_viewportX, pic.getY()-_viewportY,
+                    pic.getSize(), pic.getSize(), pic.getDegree());
+        }
     }
-
+    
+    public static GameEngine getInstance(){ return _inst;}
+    
+    /**
+     * Will be expected every tick. (e.g., 30 ticks per second for 30 FPS). Perform operations
+     * such as update all sprites and redraw them.
+     */
     @Override
-    public void onLeftClick(ICanvasDevice canvas, int x, int y) {
-        
-    }
+    public void onTick(){
 
-    @Override
-    public void onRegionSelected(ICanvasDevice canvas, int x1, int y1, int x2, int y2) {
-        
     }
+    
+    public void addUnit(Unit unit){ _arrUnits.add(unit);}
+    
+    public void addBullet(Bullet bullet){ _arrBullets.add(bullet);}
+    
+    public void addPic(Picture pic){ _arrPictures.add(pic);}
+    
+    public void addMiniPic(Picture pic){ _arrMiniPics.add(pic);}
+    
+    public void removeUnit(Unit unit){ _arrUnits.remove(unit);}
+    
+    public void removeBullet(Unit bullet){ _arrBullets.remove(bullet);}
+    
+    public void removePic(Picture pic){ _arrPictures.remove(pic);}
+    
+    public void removeMiniPic(Picture pic){ _arrMiniPics.remove(pic);}
+    
+    
+    public void damage(Bullet bullet){
+        for (Unit u: _arrUnits){
+            if (bullet.isEnemy(u.getTeam()) && 
+                    Sprite.oneDimensionOverlap(bullet.getX(),bullet.getSize(),u.getX(),u.getSize()) && 
+                    Sprite.oneDimensionOverlap(bullet.getY(),bullet.getSize(),u.getY(),u.getSize())){
+                u.getDamage(bullet._damage);
+            }
+        }
+    }
+    
+    /**
+     * Handles the mouse right button click. This operation may be substituted by finger ops on mobile devices.
+     * Note that game engine needs to keep track of canvas size and perform translation of coordinates (relative to map)
+     * @param canvas - the canvas device which raises the event
+     * @param x - x coordinate of the event IN the canvas device
+     * @param y - y coordinate of the event IN the canvas device
+     */
+    @Override
+    public void onRightClick(ICanvasDevice canvas, int x, int y){
+    
+    }
+    
+    
+    /**
+     * Handles the mouse left button click. This operation may be substituted by finger ops on mobile devices.
+     * Note that game engine needs to keep track of canvas size and perform translation of coordinates (relative to map)
+     * @param canvas - the canvas device which raises the event
+     * @param x - x coordinate of the event IN the canvas device
+     * @param y - y coordinate of the event IN the canvas device
+     */
+    @Override
+    public void onLeftClick(ICanvasDevice canvas, int x, int y){
+    }
+    
+    
+    /**
+     * Handles the mouse drag and then release event. This operation may be substituted by finger ops on mobile devices.
+     * Note that game engine needs to keep track of canvas size and perform translation of coordinates (relative to map)
+     * @param canvas - the canvas device which raises the event
+     * @param x1 - x coordinate of the DRAG_START event IN the canvas device. 
+     * @param y1 - y coordinate of the DRAG_START event IN the canvas device
+     * @param x2 - x coordinate of the DRAG_END event IN the canvas device. 
+     * @param y2 - y coordinate of the DRAG_END event IN the canvas device
+     */
+    @Override
+    public void onRegionSelected(ICanvasDevice canvas, int x1, int y1, int x2, int y2){
+    }
+    
+    
+    
     
 }

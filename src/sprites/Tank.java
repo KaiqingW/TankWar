@@ -17,23 +17,22 @@
  */
 package sprites;
 
-import EvilCraftMilestone4.GameEngineMS4;
-import EvilCraftMilestone4.Picture;
-import EvilCraftMilestone4.Team;
+import EvilCraft.GameEngine;
+import EvilCraft.Team;
 import java.util.ArrayList;
 
 /**
  *
  * @author csc190
  */
-public class Tank extends Unit{
+public class Tank extends ArmyUnit{
     private static final int COOLRATE = 60;
     private static final int LIFE = 300;
     private static final int SHOOTRANGE = 100;
     private static final int SPEED = 5;
     private static final int SIZE = 50;
     
-    Picture _gunPic;
+    String _gunPic;
     int _rotationSpeed = 1;
     
     public Tank(int x, int y, int size, int heading, Team team){
@@ -42,25 +41,19 @@ public class Tank extends Unit{
         _shootRange = SHOOTRANGE;
         _gunDir = heading;
         _speed = SPEED;
-        String bodyPath = "resources/images/" + team.getName() + "/tank/body.png";
-        String gunPath = "resources/images/" + team.getName() + "/tank/gun.png";
-        _bodyPic = new Picture(bodyPath,_x,_y,_size);
-        _bodyPic.setDegree(_heading);
-        _gunPic = new Picture(gunPath,_x,_y,_size);
-        _gunPic.setDegree(_gunDir);
+        _bodyPic = "resources/images/" + team.getName() + "/tank/body.png";
+        _gunPic = "resources/images/" + team.getName() + "/tank/gun.png";
     }
     
     @Override
     public void update(){
-        GameEngineMS4 ge = GameEngineMS4.getInstance();
+        GameEngine ge = GameEngine.getInstance();
         if (_target != null) navigate();
         if (_tempTarget != null){
             if (Boolean.parseBoolean(_tempTarget.split(",")[2])) {
                 _tempTarget = null;
             }else gunRotation();
         } else _tempTarget = ge.isEnemyShow(this);
-        _bodyPic.update(_x, _y, _heading);
-        _gunPic.update(_x, _y, _gunDir);
         if (_coolDown != 0) _coolDown --;
     }
      /**
@@ -68,8 +61,8 @@ public class Tank extends Unit{
      * @param mainview - canvas device
      */
     @Override
-    public ArrayList<Picture> getMainPictures(){
-        ArrayList<Picture> ans = new ArrayList<Picture>();
+    public ArrayList<String> getMainPictures(){
+        ArrayList<String> ans = new ArrayList<String>();
         ans.add(_bodyPic);
         ans.add(_gunPic);
         return ans;
@@ -95,14 +88,9 @@ public class Tank extends Unit{
     }
     
     public void fire(int targetX, int targetY){
-
         Bullet bullet = new Shell(_x, _y, _gunDir,targetX, targetY, _team);
-        GameEngineMS4 ge = GameEngineMS4.getInstance();
+        GameEngine ge = GameEngine.getInstance();
         ge.addBullet(bullet);
-        ge.addMiniPic(bullet.getMiniPictures());
-        for (Picture p: bullet.getMainPictures()){
-            ge.addPic(p);
-        }
         _coolDown = COOLRATE;
     }
 }

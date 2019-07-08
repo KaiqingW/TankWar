@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 csc190
+ * Copyright (C) 2019 h701819588
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,21 +19,31 @@ package sprites;
 
 import EvilCraft.Picture;
 import EvilCraft.Team;
+import java.util.ArrayList;
 
 /**
  *
- * @author csc190
+ * @author h701819588
  */
-public class Shell extends Bullet{
-    private static final int DAMAGERANGE = 50;
-    private static final int DAMAGE = 100;
-    private static final int SPEED = 15;
-    private static final int SIZE = 10;
-    public Shell(int x, int y,int heading, int destX, int destY, Team team){
-        super(x, y, SIZE, heading, destX, destY, team);
-        _damageRange = DAMAGERANGE;
-        _damage = DAMAGE;
-        _speed = SPEED;
-        _bodyPic = "resources/images/" + team.getName() + "/tank/bullet.png";
+public abstract class ConstUnit extends Unit{
+    
+    public ConstUnit(int x, int y, int size, int heading, Team team){
+        super(x,y,size,heading,team);
     }
+        /**
+     * Draw itself on main view, mostly like pictures
+     * @param mainview - canvas device
+     */
+    
+        @Override
+    public abstract void update();
+    
+    @Override
+    public abstract ArrayList<String> getMainPictures();
+    
+    public String isTargeted(){
+        return "" + _x + "," + _y + "," + isDead();
+    }
+    
+    public void getDamage(int damage){ _life -= damage;}
 }

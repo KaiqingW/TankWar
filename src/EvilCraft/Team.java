@@ -17,27 +17,29 @@
  */
 package EvilCraft;
 
-import BridgePattern.ICanvasDevice;
-
+import java.util.Hashtable;
 /**
- * Base class of all game objects
+ *
  * @author csc190
  */
-public abstract class Sprite {
-    /**
-     * update its own data attributes
-     */
-    public abstract void update();
+public class Team implements Comparable<Team>{
+    static final Hashtable<Integer,String> idName = new Hashtable<Integer,String>(){{
+        put(1,"red");
+        put(2,"yellow");
+    }};
     
-    /**
-     * Draw itself on main view, mostly like pictures
-     * @param mainview - canvas device
-     */
-    public abstract void drawOnMainView(ICanvasDevice mainview);
+    int _id;
+    String _name;
     
-    /**
-     * Draw itself on mini map, most likely colored squares
-     * @param minimap - canvas device
-     */
-    public abstract void drawOnMiniMap(ICanvasDevice minimap);
+    public Team(int id) {
+        _id = id;
+        _name = idName.get(_id);
+    }
+    
+    public String getName(){ return _name;}
+    
+    @Override
+    public int compareTo(Team other){
+        return _id - other._id;
+    }
 }

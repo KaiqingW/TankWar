@@ -17,8 +17,8 @@
  */
 package sprites;
 
-import EvilCraftMilestone4.Picture;
-import EvilCraftMilestone4.Team;
+import EvilCraft.Picture;
+import EvilCraft.Team;
 
 /**
  *
@@ -34,7 +34,6 @@ public class InfBullet extends Bullet{
         _damageRange = DAMAGERANGE;
         _damage = DAMAGE;
         _speed = SPEED;
-        String picPath = "resources/images/" + team.getName() + "/infantry/bullet.png";
-        _bodyPic = new Picture(picPath,_x,_y,_size);
+        _bodyPic = "resources/images/" + team.getName() + "/infantry/bullet.png";
     }
 }

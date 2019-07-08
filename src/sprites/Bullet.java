@@ -17,6 +17,8 @@
  */
 package sprites;
 
+import EvilCraft.Team;
+import EvilCraft.Picture;
 import BridgePattern.ICanvasDevice;
 import EvilCraftMilestone4.*;
 import java.util.ArrayList;
@@ -46,8 +48,8 @@ public class Bullet extends Sprite{
     }
     
     @Override
-    public ArrayList<Picture> getMainPictures(){
-        ArrayList<Picture> myList = new ArrayList<>();
+    public ArrayList<String> getMainPictures(){
+        ArrayList<String> myList = new ArrayList<>();
         myList.add(_bodyPic);
         return myList;
     }
